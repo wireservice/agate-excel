@@ -14,18 +14,18 @@ agateexcel.patch()
 class TestXLSX(unittest.TestCase):
     def setUp(self):
         self.rows = (
-            (1, 'a', True, '11/4/2015', '11/4/2015 12:22 PM', '0:04:15'),
-            (2, u'👍', False, '11/5/2015', '11/4/2015 12:45 PM', '0:06:18'),
-            (None, 'b', None, None, None, None)
+            (1, 'a', True, '11/4/2015', '11/4/2015 12:22 PM'),
+            (2, u'👍', False, '11/5/2015', '11/4/2015 12:45 PM'),
+            (None, 'b', None, None, None)
         )
 
         self.column_names = [
-            'number', 'text', 'boolean', 'date', 'datetime', 'timedelta'
+            'number', 'text', 'boolean', 'date', 'datetime'
         ]
 
         self.column_types = [
             agate.Number(), agate.Text(), agate.Boolean(),
-            agate.Date(), agate.DateTime(), agate.TimeDelta()
+            agate.Date(), agate.DateTime()
         ]
 
         self.table = agate.Table(self.rows, self.column_names, self.column_types)
