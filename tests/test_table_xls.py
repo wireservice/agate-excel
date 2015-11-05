@@ -8,11 +8,10 @@ except ImportError:
 
 import agate
 import agateexcel
-from sqlalchemy import create_engine
 
 agateexcel.patch()
 
-class TestTable(unittest.TestCase):
+class TestXLS(unittest.TestCase):
     def setUp(self):
         self.rows = (
             (1, 'a', True, '11/4/2015', '11/4/2015 12:22 PM'),
@@ -30,10 +29,16 @@ class TestTable(unittest.TestCase):
         ]
 
         self.table = agate.Table(self.rows, self.column_names, self.column_types)
-        self.connection_string = 'sqlite:///:memory:'
 
     def test_from_xls(self):
-        pass
+        table = agate.Table.from_xls('examples/test.xls')
 
-    def test_from_xlsx(self):
-        pass
+        self.assertSequenceEqual(table.column_names, self.column_names)
+        self.assertIsInstance(table.column_types[0], agate.Number)
+        self.assertIsInstance(table.column_types[1], agate.Text)
+        self.assertIsInstance(table.column_types[2], agate.Boolean)
+        self.assertIsInstance(table.column_types[3], agate.Date)
+        self.assertIsInstance(table.column_types[4], agate.DateTime)
+
+        self.assertEqual(len(table.rows), len(self.table.rows))
+        self.assertSequenceEqual(table.rows[0], self.table.rows[0])

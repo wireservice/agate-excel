@@ -7,6 +7,8 @@ def patch():
     :class:`TableSet <agate.tableset.TableSet>`.
     """
     import agate
-    from agateexcel.table import TableExcel
+    from agateexcel.table_xls import TableXLS
+    from agateexcel.table_xlsx import TableXLSX
 
-    agate.Table.monkeypatch(TableExcel)
+    agate.Table.monkeypatch(TableXLS)
+    agate.Table.monkeypatch(TableXLSX)
