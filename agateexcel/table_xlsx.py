@@ -33,7 +33,7 @@ class TableXLSX(object):
         if sheet:
             sheet = book.get_sheet_by_name(sheet)
         else:
-            sheet = book.get_active_sheet()
+            sheet = book.active
 
         column_names = []
         rows = []
@@ -47,8 +47,6 @@ class TableXLSX(object):
 
             for c in row:
                 value = c.value
-
-                print(value, type(value))
 
                 if value.__class__ is datetime.datetime:
                     # Handle default XLSX date as 00:00 time
