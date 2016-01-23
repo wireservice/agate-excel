@@ -11,7 +11,7 @@ import xlrd
 
 class TableXLS(object):
     @classmethod
-    def from_xls(cls, path, sheet=None, **kwargs):
+    def from_xls(cls, path, sheet=None):
         """
         Parse an XLS file.
 
@@ -22,10 +22,10 @@ class TableXLS(object):
             sheet will be used.
         """
         if hasattr(path, 'read'):
-            book = xlrd.open_workbook(file_contents=path.read(), **kwargs)
+            book = xlrd.open_workbook(file_contents=path.read())
         else:
             with open(path, 'rb') as f:
-                book = xlrd.open_workbook(file_contents=f.read(), **kwargs)
+                book = xlrd.open_workbook(file_contents=f.read())
 
         if sheet:
             sheet = book.sheet_by_name(sheet)

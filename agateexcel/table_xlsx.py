@@ -13,7 +13,7 @@ NULL_TIME = datetime.time(0, 0, 0)
 
 class TableXLSX(object):
     @classmethod
-    def from_xlsx(cls, path, sheet=None, **kwargs):
+    def from_xlsx(cls, path, sheet=None):
         """
         Parse an XLSX file.
 
@@ -28,7 +28,7 @@ class TableXLSX(object):
         else:
             f = open(path, 'rb')
 
-        book = openpyxl.load_workbook(f, read_only=True, data_only=True, **kwargs)
+        book = openpyxl.load_workbook(f, read_only=True, data_only=True)
 
         if sheet:
             sheet = book.get_sheet_by_name(sheet)
