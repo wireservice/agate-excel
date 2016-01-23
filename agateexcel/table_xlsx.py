@@ -14,7 +14,7 @@ NULL_TIME = datetime.time(0, 0, 0)
 
 class TableXLSX(object):
     @classmethod
-    def from_xlsx(cls, path):
+    def from_xlsx(cls, path, sheet=None):
         """
         TKTK
         """
@@ -25,11 +25,10 @@ class TableXLSX(object):
 
         book = openpyxl.load_workbook(f, read_only=True, data_only=True)
 
-        # if 'sheet' in kwargs:
-        #     sheet = book.get_sheet_by_name(kwargs['sheet'])
-        # else:
-
-        sheet = book.get_active_sheet()
+        if sheet:
+            sheet = book.get_sheet_by_name(sheet)
+        else:
+            sheet = book.get_active_sheet()
 
         column_names = []
         rows = []

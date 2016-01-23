@@ -11,7 +11,7 @@ import agateexcel
 
 agateexcel.patch()
 
-class TestXLSX(unittest.TestCase):
+class TestXLSX(agate.AgateTestCase):
     def setUp(self):
         self.rows = (
             (1, 'a', True, '11/4/2015', '11/4/2015 12:22 PM'),
@@ -33,12 +33,13 @@ class TestXLSX(unittest.TestCase):
     def test_from_xlsx(self):
         table = agate.Table.from_xlsx('examples/test.xlsx')
 
-        self.assertSequenceEqual(table.column_names, self.column_names)
-        self.assertIsInstance(table.column_types[0], agate.Number)
-        self.assertIsInstance(table.column_types[1], agate.Text)
-        self.assertIsInstance(table.column_types[2], agate.Boolean)
-        self.assertIsInstance(table.column_types[3], agate.Date)
-        self.assertIsInstance(table.column_types[4], agate.DateTime)
+        self.assertColumnNames(table, self.column_names)
+        self.assertColumnTypes(table, [agate.Number, agate.Text, agate.Boolean, agate.Date, agate.DateTime])
+        self.assertRows(table, [r.values() for r in self.table.rows])
 
-        self.assertEqual(len(table.rows), len(self.table.rows))
-        self.assertSequenceEqual(table.rows[0], self.table.rows[0])
+    def test_sheet(self):
+        table = agate.Table.from_xlsx('examples/test_sheets.xlsx', 'data')
+
+        self.assertColumnNames(table, self.column_names)
+        self.assertColumnTypes(table, [agate.Number, agate.Text, agate.Boolean, agate.Date, agate.DateTime])
+        self.assertRows(table, [r.values() for r in self.table.rows])

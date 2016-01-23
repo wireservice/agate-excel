@@ -12,7 +12,7 @@ import xlrd
 
 class TableXLS(object):
     @classmethod
-    def from_xls(cls, path):
+    def from_xls(cls, path, sheet=None):
         """
         TKTK
         """
@@ -22,15 +22,13 @@ class TableXLS(object):
             with open(path, 'rb') as f:
                 book = xlrd.open_workbook(file_contents=f.read())
 
-        # if 'sheet' in kwargs:
-        #     sheet = book.sheet_by_name(kwargs['sheet'])
-        # else:
-
-        sheet = book.sheet_by_index(0)
+        if sheet:
+            sheet = book.sheet_by_name(sheet)
+        else:
+            sheet = book.sheet_by_index(0)
 
         column_names = []
         columns = []
-        # force_types = {}
 
         for i in range(sheet.ncols):
             data = sheet.col_values(i)
@@ -47,17 +45,11 @@ class TableXLS(object):
 
             column_names.append(name)
             columns.append(values)
-            # agate_type, normal_values = NORMALIZERS[excel_type](values, datemode=book.datemode)
-            #
-            # column_types.append(agate_type)
-            # columns.append(normal_values)
 
         rows = []
 
         for i in range(len(columns[0])):
             rows.append([c[i] for c in columns])
-
-        # tester = agate.TypeTester(force=force_types)
 
         return agate.Table(rows, column_names)
 
@@ -81,7 +73,7 @@ def normalize_booleans(values):
     normalized = []
 
     for value in values:
-        if value is None:
+        if value is None or value is '':
             normalized.append(None)
         else:
             normalized.append(bool(value))
