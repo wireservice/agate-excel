@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 
 """
-This module contains the agateexcel XLS extension to
-:class:`Table <agate.table.Table>`.
+This module contains the XLS extension to :class:`Table <agate.table.Table>`.
 """
 
 import datetime
@@ -14,7 +13,13 @@ class TableXLS(object):
     @classmethod
     def from_xls(cls, path, sheet=None):
         """
-        TKTK
+        Parse an XLS file.
+
+        :param path:
+            Path to an XLS file to load.
+        :param sheet:
+            The name of a worksheet to load. If not specified then the first
+            sheet will be used.
         """
         if hasattr(path, 'read'):
             book = xlrd.open_workbook(file_contents=path.read())

@@ -1,6 +1,6 @@
-===================
-agate-sql |release|
-===================
+=====================
+agate-excel |release|
+=====================
 
 .. include:: ../README.rst
 
@@ -27,15 +27,18 @@ agate-excel uses a monkey patching pattern to add read for xls and xlsx files su
 
     agateexcel.patch()
 
-Calling :func:`.patch` attaches all the methods of :class:`.TableExcel` to :class:`agate.Table <agate.table.Table>`.
+Calling :func:`.patch` attaches all the methods of :class:`.TableXLS` and :class:`.TableXLSX` to :class:`agate.Table <agate.table.Table>`.
 
 ===
 API
 ===
 
-.. autofunction:: agatesql.patch
+.. autofunction:: agateexcel.patch
 
-.. autoclass:: agatesql.table.TableExcel
+.. autoclass:: agateexcel.table_xls.TableXLS
+    :members:
+
+.. autoclass:: agateexcel.table_xlsx.TableXLSX
     :members:
 
 Authors

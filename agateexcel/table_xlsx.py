@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 
 """
-This module contains the agateexcel XLSX extension to
-:class:`Table <agate.table.Table>`.
+This module contains the XLSX extension to :class:`Table <agate.table.Table>`.
 """
 
 import datetime
@@ -16,7 +15,13 @@ class TableXLSX(object):
     @classmethod
     def from_xlsx(cls, path, sheet=None):
         """
-        TKTK
+        Parse an XLSX file.
+
+        :param path:
+            Path to an XLSX file to load.
+        :param sheet:
+            The name of a worksheet to load. If not specified then the "active"
+            sheet will be used.
         """
         if hasattr(path, 'read'):
             f = path

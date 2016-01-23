@@ -175,7 +175,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'agatesqldoc'
+htmlhelp_basename = 'agateexceldoc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -189,7 +189,7 @@ htmlhelp_basename = 'agatesqldoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'agate-sql.tex', u'agate-sql Documentation',
+  ('index', 'agate-excel.tex', u'agate-excel Documentation',
    u'Christopher Groskopf', 'manual'),
 ]
 
