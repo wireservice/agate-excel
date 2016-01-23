@@ -16,7 +16,7 @@ class TableXLS(object):
         Parse an XLS file.
 
         :param path:
-            Path to an XLS file to load.
+            Path to an XLS file to load or a file-like object for one.
         :param sheet:
             The name of a worksheet to load. If not specified then the first
             sheet will be used.

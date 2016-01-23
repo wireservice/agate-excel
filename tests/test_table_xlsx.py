@@ -37,6 +37,14 @@ class TestXLSX(agate.AgateTestCase):
         self.assertColumnTypes(table, [agate.Number, agate.Text, agate.Boolean, agate.Date, agate.DateTime])
         self.assertRows(table, [r.values() for r in self.table.rows])
 
+    def test_file_like(self):
+        with open('examples/test.xlsx', 'rb') as f:
+            table = agate.Table.from_xlsx(f)
+
+        self.assertColumnNames(table, self.column_names)
+        self.assertColumnTypes(table, [agate.Number, agate.Text, agate.Boolean, agate.Date, agate.DateTime])
+        self.assertRows(table, [r.values() for r in self.table.rows])
+
     def test_sheet(self):
         table = agate.Table.from_xlsx('examples/test_sheets.xlsx', 'data')
 

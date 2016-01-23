@@ -18,7 +18,7 @@ class TableXLSX(object):
         Parse an XLSX file.
 
         :param path:
-            Path to an XLSX file to load.
+            Path to an XLSX file to load or a file or file-like object for one.
         :param sheet:
             The name of a worksheet to load. If not specified then the "active"
             sheet will be used.
