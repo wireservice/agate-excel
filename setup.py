@@ -10,7 +10,7 @@ install_requires = [
 
 setup(
     name='agate-excel',
-    version='0.1.0',
+    version='0.1.1',
     description='agate-excel adds read support for Excel files (xls and xlsx) to agate.',
     long_description=open('README.rst').read(),
     author='Christopher Groskopf',
