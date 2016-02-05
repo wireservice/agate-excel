@@ -12,3 +12,4 @@ print(table)
 table = agate.Table.from_xlsx('examples/test.xlsx')
 
 print(table)
+table.print_table()
