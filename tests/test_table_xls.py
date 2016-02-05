@@ -58,3 +58,14 @@ class TestXLS(agate.AgateTestCase):
         self.assertColumnNames(table, self.column_names)
         self.assertColumnTypes(table, [agate.Number, agate.Text, agate.Boolean, agate.Date, agate.DateTime])
         self.assertRows(table, [r.values() for r in self.table.rows])
+
+    def test_zeros(self):
+        table = agate.Table.from_xls('examples/test_zeros.xls')
+
+        self.assertColumnNames(table, ['ordinal', 'binary', 'all_zero'])
+        self.assertColumnTypes(table, [agate.Number, agate.Number, agate.Number])
+        self.assertRows(table, [
+            [0, 0, 0],
+            [1, 1, 0],
+            [2, 1, 0]
+        ])

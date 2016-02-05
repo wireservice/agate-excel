@@ -5,16 +5,10 @@ import agateexcel
 
 agateexcel.patch()
 
-table = agate.Table.from_xls('filename.xls')
+table = agate.Table.from_xls('examples/test.xls')
 
-print(table.column_names)
-print(table.column_types)
-print(len(table.columns))
-print(len(table.rows))
+print(table)
 
-table = agate.Table.from_xlsx('filename.xlsx')
+table = agate.Table.from_xlsx('examples/test.xlsx')
 
-print(table.column_names)
-print(table.column_types)
-print(len(table.columns))
-print(len(table.rows))
+print(table)
