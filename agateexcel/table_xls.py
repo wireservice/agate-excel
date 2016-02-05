@@ -7,6 +7,7 @@ This module contains the XLS extension to :class:`Table <agate.table.Table>`.
 import datetime
 
 import agate
+import six
 import xlrd
 
 class TableXLS(object):
@@ -27,8 +28,10 @@ class TableXLS(object):
             with open(path, 'rb') as f:
                 book = xlrd.open_workbook(file_contents=f.read())
 
-        if sheet:
+        if isinstance(sheet, six.string_types):
             sheet = book.sheet_by_name(sheet)
+        elif isinstance(sheet, int):
+            sheet = book.sheet_by_index(sheet)
         else:
             sheet = book.sheet_by_index(0)
 

@@ -8,6 +8,7 @@ import datetime
 
 import agate
 import openpyxl
+import six
 
 NULL_TIME = datetime.time(0, 0, 0)
 
@@ -20,8 +21,8 @@ class TableXLSX(object):
         :param path:
             Path to an XLSX file to load or a file or file-like object for one.
         :param sheet:
-            The name of a worksheet to load. If not specified then the "active"
-            sheet will be used.
+            The name or integer index of a worksheet to load. If not specified
+            then the "active" sheet will be used.
         """
         if hasattr(path, 'read'):
             f = path
@@ -30,8 +31,10 @@ class TableXLSX(object):
 
         book = openpyxl.load_workbook(f, read_only=True, data_only=True)
 
-        if sheet:
+        if isinstance(sheet, six.string_types):
             sheet = book.get_sheet_by_name(sheet)
+        elif isinstance(sheet, int):
+            sheet = book.worksheets[sheet]
         else:
             sheet = book.active
 
