@@ -3,7 +3,7 @@
 from setuptools import setup
 
 install_requires = [
-    'agate>=1.2.1',
+    'agate>=1.2.2',
     'xlrd>=0.9.4',
     'openpyxl>=2.3.0'
 ]

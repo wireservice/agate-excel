@@ -22,12 +22,22 @@ agate-excel uses a monkey patching pattern to add read for xls and xlsx files su
 
 .. code-block:: python
 
-    import agate
-    import agateexcel
+  import agate
+  import agateexcel
 
-    agateexcel.patch()
+  agateexcel.patch()
 
-Calling :func:`.patch` attaches all the methods of :class:`.TableXLS` and :class:`.TableXLSX` to :class:`agate.Table <agate.table.Table>`.
+Calling :func:`.patch` attaches all the methods of :class:`.TableXLS` and :class:`.TableXLSX` to :class:`agate.Table <agate.table.Table>`. Once you've patched the module, you can create tables from both XLS and XLSX files.
+
+.. code-block:: python
+
+  table = agate.Table.from_xls('examples/test.xls')
+  print(table)
+
+  table = agate.Table.from_xlsx('examples/test.xlsx')
+  print(table)
+
+Both methods accept a :code:`sheet` argument to specify which sheet to create the table from.
 
 ===
 API
