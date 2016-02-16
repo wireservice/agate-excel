@@ -1,5 +1,5 @@
-.. image:: https://travis-ci.org/onyxfish/agate-excel.png
-    :target: https://travis-ci.org/onyxfish/agate-excel
+.. image:: https://travis-ci.org/wireservice/agate-excel.png
+    :target: https://travis-ci.org/wireservice/agate-excel
     :alt: Build status
 
 .. image:: https://img.shields.io/pypi/dw/agate-excel.svg
@@ -18,11 +18,11 @@
     :target: https://pypi.python.org/pypi/agate-excel
     :alt: Support Python versions
 
-agate-excel adds read support for Excel files (xls and xlsx) to `agate <https://github.com/onyxfish/agate>`_.
+agate-excel adds read support for Excel files (xls and xlsx) to `agate <https://github.com/wireservice/agate>`_.
 
 Important links:
 
 * agate             http://agate.rtfd.org
 * Documentation:    http://agate-excel.rtfd.org
-* Repository:       https://github.com/onyxfish/agate-excel
-* Issues:           https://github.com/onyxfish/agate-excel/issues
+* Repository:       https://github.com/wireservice/agate-excel
+* Issues:           https://github.com/wireservice/agate-excel/issues
