@@ -40,7 +40,7 @@ class TableXLS(object):
 
         for i in range(sheet.ncols):
             data = sheet.col_values(i)
-            name = data[0] or None
+            name = six.text_type(data[0]) or None
             values = data[1:]
             types = sheet.col_types(i)[1:]
 
