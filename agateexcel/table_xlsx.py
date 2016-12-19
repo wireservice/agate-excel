@@ -30,7 +30,7 @@ def from_xlsx(cls, path, sheet=None):
     book = openpyxl.load_workbook(f, read_only=True, data_only=True)
 
     if isinstance(sheet, six.string_types):
-        sheet = book.get_sheet_by_name(sheet)
+        sheet = book[sheet]
     elif isinstance(sheet, int):
         sheet = book.worksheets[sheet]
     else:
