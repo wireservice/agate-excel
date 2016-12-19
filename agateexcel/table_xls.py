@@ -79,7 +79,7 @@ def normalize_booleans(values):
     normalized = []
 
     for value in values:
-        if value is None or value is '':
+        if value is None or value == '':
             normalized.append(None)
         else:
             normalized.append(bool(value))
