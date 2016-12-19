@@ -9,8 +9,6 @@ except ImportError:
 import agate
 import agateexcel
 
-agateexcel.patch()
-
 class TestXLS(agate.AgateTestCase):
     def setUp(self):
         self.rows = (

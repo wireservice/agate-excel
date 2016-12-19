@@ -10,56 +10,54 @@ import agate
 import six
 import xlrd
 
-class TableXLS(object):
-    @classmethod
-    def from_xls(cls, path, sheet=None):
-        """
-        Parse an XLS file.
+def from_xls(cls, path, sheet=None):
+    """
+    Parse an XLS file.
 
-        :param path:
-            Path to an XLS file to load or a file-like object for one.
-        :param sheet:
-            The name of a worksheet to load. If not specified then the first
-            sheet will be used.
-        """
-        if hasattr(path, 'read'):
-            book = xlrd.open_workbook(file_contents=path.read())
-        else:
-            with open(path, 'rb') as f:
-                book = xlrd.open_workbook(file_contents=f.read())
+    :param path:
+        Path to an XLS file to load or a file-like object for one.
+    :param sheet:
+        The name of a worksheet to load. If not specified then the first
+        sheet will be used.
+    """
+    if hasattr(path, 'read'):
+        book = xlrd.open_workbook(file_contents=path.read())
+    else:
+        with open(path, 'rb') as f:
+            book = xlrd.open_workbook(file_contents=f.read())
 
-        if isinstance(sheet, six.string_types):
-            sheet = book.sheet_by_name(sheet)
-        elif isinstance(sheet, int):
-            sheet = book.sheet_by_index(sheet)
-        else:
-            sheet = book.sheet_by_index(0)
+    if isinstance(sheet, six.string_types):
+        sheet = book.sheet_by_name(sheet)
+    elif isinstance(sheet, int):
+        sheet = book.sheet_by_index(sheet)
+    else:
+        sheet = book.sheet_by_index(0)
 
-        column_names = []
-        columns = []
+    column_names = []
+    columns = []
 
-        for i in range(sheet.ncols):
-            data = sheet.col_values(i)
-            name = six.text_type(data[0]) or None
-            values = data[1:]
-            types = sheet.col_types(i)[1:]
+    for i in range(sheet.ncols):
+        data = sheet.col_values(i)
+        name = six.text_type(data[0]) or None
+        values = data[1:]
+        types = sheet.col_types(i)[1:]
 
-            excel_type = determine_excel_type(types)
+        excel_type = determine_excel_type(types)
 
-            if excel_type == xlrd.biffh.XL_CELL_BOOLEAN:
-                values = normalize_booleans(values)
-            elif excel_type == xlrd.biffh.XL_CELL_DATE:
-                values = normalize_dates(values, book.datemode)
+        if excel_type == xlrd.biffh.XL_CELL_BOOLEAN:
+            values = normalize_booleans(values)
+        elif excel_type == xlrd.biffh.XL_CELL_DATE:
+            values = normalize_dates(values, book.datemode)
 
-            column_names.append(name)
-            columns.append(values)
+        column_names.append(name)
+        columns.append(values)
 
-        rows = []
+    rows = []
 
-        for i in range(len(columns[0])):
-            rows.append([c[i] for c in columns])
+    for i in range(len(columns[0])):
+        rows.append([c[i] for c in columns])
 
-        return agate.Table(rows, column_names)
+    return agate.Table(rows, column_names)
 
 def determine_excel_type(types):
     """
@@ -111,3 +109,5 @@ def normalize_dates(values, datemode=0):
             normalized.append(datetime.datetime(*v_tuple))
 
     return normalized
+
+agate.Table.from_xls = classmethod(from_xls)

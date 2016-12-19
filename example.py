@@ -3,8 +3,6 @@
 import agate
 import agateexcel
 
-agateexcel.patch()
-
 table = agate.Table.from_xls('examples/test.xls')
 
 print(table)

@@ -12,63 +12,61 @@ import six
 
 NULL_TIME = datetime.time(0, 0, 0)
 
-class TableXLSX(object):
-    @classmethod
-    def from_xlsx(cls, path, sheet=None):
-        """
-        Parse an XLSX file.
+def from_xlsx(cls, path, sheet=None):
+    """
+    Parse an XLSX file.
 
-        :param path:
-            Path to an XLSX file to load or a file or file-like object for one.
-        :param sheet:
-            The name or integer index of a worksheet to load. If not specified
-            then the "active" sheet will be used.
-        """
-        if hasattr(path, 'read'):
-            f = path
-        else:
-            f = open(path, 'rb')
+    :param path:
+        Path to an XLSX file to load or a file or file-like object for one.
+    :param sheet:
+        The name or integer index of a worksheet to load. If not specified
+        then the "active" sheet will be used.
+    """
+    if hasattr(path, 'read'):
+        f = path
+    else:
+        f = open(path, 'rb')
 
-        book = openpyxl.load_workbook(f, read_only=True, data_only=True)
+    book = openpyxl.load_workbook(f, read_only=True, data_only=True)
 
-        if isinstance(sheet, six.string_types):
-            sheet = book.get_sheet_by_name(sheet)
-        elif isinstance(sheet, int):
-            sheet = book.worksheets[sheet]
-        else:
-            sheet = book.active
+    if isinstance(sheet, six.string_types):
+        sheet = book.get_sheet_by_name(sheet)
+    elif isinstance(sheet, int):
+        sheet = book.worksheets[sheet]
+    else:
+        sheet = book.active
 
-        column_names = []
-        rows = []
+    column_names = []
+    rows = []
 
-        for i, row in enumerate(sheet.rows):
-            if i == 0:
-                column_names = [c.value for c in row]
-                continue
+    for i, row in enumerate(sheet.rows):
+        if i == 0:
+            column_names = [c.value for c in row]
+            continue
 
-            values = []
+        values = []
 
-            for c in row:
-                value = c.value
+        for c in row:
+            value = c.value
 
-                if value.__class__ is datetime.datetime:
-                    # Handle default XLSX date as 00:00 time
-                    if value.date() == datetime.date(1904, 1, 1) and not has_date_elements(c):
-                        value = value.time()
+            if value.__class__ is datetime.datetime:
+                # Handle default XLSX date as 00:00 time
+                if value.date() == datetime.date(1904, 1, 1) and not has_date_elements(c):
+                    value = value.time()
 
-                        value = normalize_datetime(value)
-                    elif value.time() == NULL_TIME:
-                        value = value.date()
-                    else:
-                        value = normalize_datetime(value)
+                    value = normalize_datetime(value)
+                elif value.time() == NULL_TIME:
+                    value = value.date()
+                else:
+                    value = normalize_datetime(value)
 
-                values.append(value)
+            values.append(value)
 
-            rows.append(values)
+        rows.append(values)
 
-        f.close()
+    f.close()
 
-        return agate.Table(rows, column_names)
+    return agate.Table(rows, column_names)
 
 def normalize_datetime(dt):
     if dt.microsecond == 0:
@@ -95,3 +93,5 @@ def has_date_elements(cell):
         return True
 
     return False
+
+agate.Table.from_xlsx = classmethod(from_xlsx)

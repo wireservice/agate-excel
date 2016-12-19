@@ -3,14 +3,14 @@
 from setuptools import setup
 
 install_requires = [
-    'agate>=1.2.2',
+    'agate>=1.5.0',
     'xlrd>=0.9.4',
     'openpyxl>=2.3.0'
 ]
 
 setup(
     name='agate-excel',
-    version='0.1.1',
+    version='0.2.0',
     description='agate-excel adds read support for Excel files (xls and xlsx) to agate.',
     long_description=open('README.rst').read(),
     author='Christopher Groskopf',
