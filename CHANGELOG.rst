@@ -1,7 +1,7 @@
 0.2.1
 -----
 
-
+* Fix bug in handling ambiguous dates in XLS. (#9)
 
 0.2.0
 -----

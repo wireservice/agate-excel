@@ -97,16 +97,16 @@ def normalize_dates(values, datemode=0):
             normalized.append(None)
             continue
 
-        v_tuple = xlrd.xldate_as_tuple(v, datemode)
+        v_tuple = xlrd.xldate.xldate_as_datetime(v, datemode).timetuple()
 
-        if v_tuple[3:] == (0, 0, 0):
+        if v_tuple[3:6] == (0, 0, 0):
             # Date only
             normalized.append(datetime.date(*v_tuple[:3]))
         elif v_tuple[:3] == (0, 0, 0):
-            normalized.append(datetime.time(*v_tuple[3:]))
+            normalized.append(datetime.time(*v_tuple[3:6]))
         else:
             # Date and time
-            normalized.append(datetime.datetime(*v_tuple))
+            normalized.append(datetime.datetime(*v_tuple[:6]))
 
     return normalized
 
