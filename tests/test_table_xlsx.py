@@ -56,3 +56,15 @@ class TestXLSX(agate.AgateTestCase):
         self.assertColumnNames(table, self.column_names)
         self.assertColumnTypes(table, [agate.Number, agate.Text, agate.Boolean, agate.Date, agate.DateTime])
         self.assertRows(table, [r.values() for r in self.table.rows])
+
+    def test_numeric_column_name(self):
+        rows = (('Canada', 35160000),)
+        column_names = ['Country', '2013']
+        column_types = [agate.Text(), agate.Number()]
+        expected = agate.Table(rows, column_names, column_types)
+
+        actual = agate.Table.from_xlsx('examples/test_numeric_column_name.xlsx')
+
+        self.assertColumnNames(actual, column_names)
+        self.assertColumnTypes(actual, [agate.Text, agate.Number])
+        self.assertRows(actual, [r.values() for r in expected.rows])
