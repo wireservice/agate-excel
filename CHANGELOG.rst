@@ -1,7 +1,7 @@
 0.2.1
 -----
 
-
+* Fix bug in handling an empty XLS.
 
 0.2.0
 -----
