@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf8 -*-
 
+import datetime
+
 try:
     import unittest2 as unittest
 except ImportError:
@@ -56,3 +58,12 @@ class TestXLSX(agate.AgateTestCase):
         self.assertColumnNames(table, self.column_names)
         self.assertColumnTypes(table, [agate.Number, agate.Text, agate.Boolean, agate.Date, agate.DateTime])
         self.assertRows(table, [r.values() for r in self.table.rows])
+
+    def test_ambiguous_date(self):
+        table = agate.Table.from_xlsx('examples/test_ambiguous_date.xlsx')
+
+        self.assertColumnNames(table, ['s'])
+        self.assertColumnTypes(table, [agate.Date])
+        self.assertRows(table, [
+            [datetime.date(1899, 12, 31)]
+        ])
