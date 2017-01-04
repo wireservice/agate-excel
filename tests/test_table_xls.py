@@ -69,13 +69,8 @@ class TestXLS(agate.AgateTestCase):
         ])
 
     def test_empty(self):
-        rows = ()
-        column_names = []
-        column_types = []
-        expected = agate.Table(rows, column_names, column_types)
+        table = agate.Table.from_xls('examples/test_empty.xls')
 
-        actual = agate.Table.from_xls('examples/test_empty.xls')
-
-        self.assertColumnNames(actual, column_names)
-        self.assertColumnTypes(actual, [])
-        self.assertRows(actual, [r.values() for r in expected.rows])
+        self.assertColumnNames(table, [])
+        self.assertColumnTypes(table, [])
+        self.assertRows(table, [])
