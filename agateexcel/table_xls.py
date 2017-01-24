@@ -10,7 +10,7 @@ import agate
 import six
 import xlrd
 
-def from_xls(cls, path, sheet=None):
+def from_xls(cls, path, sheet=None, **kwargs):
     """
     Parse an XLS file.
 
@@ -57,7 +57,7 @@ def from_xls(cls, path, sheet=None):
     for i in range(len(columns[0])):
         rows.append([c[i] for c in columns])
 
-    return agate.Table(rows, column_names)
+    return agate.Table(rows, column_names, **kwargs)
 
 def determine_excel_type(types):
     """
