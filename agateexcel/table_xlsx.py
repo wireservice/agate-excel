@@ -41,7 +41,7 @@ def from_xlsx(cls, path, sheet=None):
 
     for i, row in enumerate(sheet.rows):
         if i == 0:
-            column_names = [c.value for c in row]
+            column_names = [six.text_type(c.value) for c in row]
             continue
 
         values = []
