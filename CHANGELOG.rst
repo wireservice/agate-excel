@@ -2,6 +2,7 @@
 -----
 
 * Fix bug in handling an empty XLS.
+* Fix bug in handling non-string column names in XLSX.
 
 0.2.0
 -----
