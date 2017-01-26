@@ -1,6 +1,7 @@
 0.2.1
 -----
 
+* Fix bug in handling ambiguous dates in XLS. (#9)
 * Fix bug in handling an empty XLS.
 * Fix bug in handling non-string column names in XLSX.
 
