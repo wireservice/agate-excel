@@ -77,4 +77,19 @@ class TestXLS(agate.AgateTestCase):
         self.assertColumnTypes(table, [agate.Date])
         self.assertRows(table, [
             [datetime.date(1900, 1, 1)]
+
+    def test_empty(self):
+        table = agate.Table.from_xls('examples/test_empty.xls')
+
+        self.assertColumnNames(table, [])
+        self.assertColumnTypes(table, [])
+        self.assertRows(table, [])
+
+    def test_numeric_column_name(self):
+        table = agate.Table.from_xls('examples/test_numeric_column_name.xls')
+
+        self.assertColumnNames(table, ('Country', '2013.0'))
+        self.assertColumnTypes(table, [agate.Text, agate.Number])
+        self.assertRows(table, [
+            ['Canada', 35160000]
         ])

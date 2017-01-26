@@ -12,7 +12,7 @@ import six
 
 NULL_TIME = datetime.time(0, 0, 0)
 
-def from_xlsx(cls, path, sheet=None):
+def from_xlsx(cls, path, sheet=None, **kwargs):
     """
     Parse an XLSX file.
 
@@ -41,7 +41,7 @@ def from_xlsx(cls, path, sheet=None):
 
     for i, row in enumerate(sheet.rows):
         if i == 0:
-            column_names = [c.value for c in row]
+            column_names = [six.text_type(c.value) for c in row]
             continue
 
         values = []
@@ -66,7 +66,7 @@ def from_xlsx(cls, path, sheet=None):
 
     f.close()
 
-    return agate.Table(rows, column_names)
+    return agate.Table(rows, column_names, **kwargs)
 
 def normalize_datetime(dt):
     if dt.microsecond == 0:
