@@ -54,8 +54,9 @@ def from_xls(cls, path, sheet=None, **kwargs):
 
     rows = []
 
-    for i in range(len(columns[0])):
-        rows.append([c[i] for c in columns])
+    if columns:
+        for i in range(len(columns[0])):
+            rows.append([c[i] for c in columns])
 
     return agate.Table(rows, column_names, **kwargs)
 

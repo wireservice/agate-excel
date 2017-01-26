@@ -57,6 +57,13 @@ class TestXLSX(agate.AgateTestCase):
         self.assertColumnTypes(table, [agate.Number, agate.Text, agate.Boolean, agate.Date, agate.DateTime])
         self.assertRows(table, [r.values() for r in self.table.rows])
 
+    def test_empty(self):
+        table = agate.Table.from_xlsx('examples/test_empty.xlsx')
+
+        self.assertColumnNames(table, [])
+        self.assertColumnTypes(table, [])
+        self.assertRows(table, [])
+
     def test_numeric_column_name(self):
         table = agate.Table.from_xlsx('examples/test_numeric_column_name.xlsx')
 
