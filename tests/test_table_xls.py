@@ -89,8 +89,8 @@ class TestXLS(agate.AgateTestCase):
     def test_numeric_column_name(self):
         table = agate.Table.from_xls('examples/test_numeric_column_name.xls')
 
-        self.assertColumnNames(table, ('Country', '2013.0'))
-        self.assertColumnTypes(table, [agate.Text, agate.Number])
+        self.assertColumnNames(table, ('Country', '2013.0', 'c'))
+        self.assertColumnTypes(table, [agate.Text, agate.Number, agate.Text])
         self.assertRows(table, [
-            ['Canada', 35160000]
+            ['Canada', 35160000, 'value']
         ])
