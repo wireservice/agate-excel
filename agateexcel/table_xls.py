@@ -10,7 +10,7 @@ import agate
 import six
 import xlrd
 
-def from_xls(cls, path, sheet=None, **kwargs):
+def from_xls(cls, path, sheet=None, skip_lines=0, **kwargs):
     """
     Parse an XLS file.
 
@@ -19,6 +19,8 @@ def from_xls(cls, path, sheet=None, **kwargs):
     :param sheet:
         The name of a worksheet to load. If not specified then the first
         sheet will be used.
+    :param skip_lines:
+        The number of rows to skip from the top of the sheet.
     """
     if hasattr(path, 'read'):
         book = xlrd.open_workbook(file_contents=path.read())
@@ -36,11 +38,14 @@ def from_xls(cls, path, sheet=None, **kwargs):
     column_names = []
     columns = []
 
+    if not isinstance(skip_lines, int):
+        raise ValueError('skip_lines argument must be an int')
+
     for i in range(sheet.ncols):
         data = sheet.col_values(i)
-        name = six.text_type(data[0]) or None
-        values = data[1:]
-        types = sheet.col_types(i)[1:]
+        name = six.text_type(data[skip_lines]) or None
+        values = data[skip_lines + 1:]
+        types = sheet.col_types(i)[skip_lines + 1:]
 
         excel_type = determine_excel_type(types)
 
