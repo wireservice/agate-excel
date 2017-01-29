@@ -18,14 +18,14 @@ For details on development or supported platforms see the `agate documentation <
 Usage
 =====
 
-agate-excel uses a monkey patching pattern to add read for xls and xlsx files support to all :class:`agate.Table <agate.table.Table>` instances.
+agate-excel uses a monkey patching pattern to add read for xls and xlsx files support to all :class:`agate.Table <agate.table.Table>` and  :class:`agate.TableSet <agate.table.TableSet>` instances.
 
 .. code-block:: python
 
   import agate
   import agateexcel
 
-Importing agate-excel adds methods to :class:`agate.Table <agate.table.Table>`. Once you've imported it, you can create tables from both XLS and XLSX files.
+Importing agate-excel adds methods to :class:`agate.Table <agate.table.Table>` and :class:`agate.TableSet <agate.table.TableSet>`. Once you've imported it, you can create tables from both XLS and XLSX files.
 
 .. code-block:: python
 
@@ -35,7 +35,13 @@ Importing agate-excel adds methods to :class:`agate.Table <agate.table.Table>`. 
   table = agate.Table.from_xlsx('examples/test.xlsx')
   print(table)
 
-Both methods accept a :code:`sheet` argument to specify which sheet to create the table from.
+  tableset = agate.TableSet.from_xls('examples/test_sheets.xls')
+  print(tableset)
+
+  tableset = agate.TableSet.from_xlsx('examples/test_sheets.xlsx')
+  print(tableset)
+
+Both ``Table`` methods accept a :code:`sheet` argument to specify which sheet to create the table from. Both ``TableSet`` methods accept a :code:`sheets` argument to specify which sheets to create the table set from; otherwise, the table set will load all sheets.
 
 ===
 API
@@ -44,6 +50,10 @@ API
 .. autofunction:: agateexcel.table_xls.from_xls
 
 .. autofunction:: agateexcel.table_xlsx.from_xlsx
+
+.. autofunction:: agateexcel.tableset_xls.from_xls
+
+.. autofunction:: agateexcel.tableset_xlsx.from_xlsx
 
 Authors
 =======

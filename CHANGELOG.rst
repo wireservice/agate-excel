@@ -1,7 +1,8 @@
 0.2.1
 -----
 
-* Add a ``skip_lines`` argument to ``from_xls`` and ``from_xlsx`` to skip rows from the top of the sheet.
+* Add :meth:`.TableSet.from_xls` and :meth:`.TableSet.from_xlsx` to return multiple sheets as tables.
+* Add a ``skip_lines`` argument to :meth:`.Table.from_xls` and :meth:`.Table.from_xlsx` to skip rows from the top of the sheet.
 * Fix bug in handling ambiguous dates in XLS. (#9)
 * Fix bug in handling an empty XLS.
 * Fix bug in handling non-string column names in XLSX.

@@ -17,26 +17,27 @@ def from_xlsx(cls, path, sheet=None, skip_lines=0, **kwargs):
     Parse an XLSX file.
 
     :param path:
-        Path to an XLSX file to load or a file or file-like object for one.
+        Path to an XLSX file to load or a file-like object for one.
     :param sheet:
         The name or integer index of a worksheet to load. If not specified
         then the "active" sheet will be used.
     :param skip_lines:
         The number of rows to skip from the top of the sheet.
     """
-    if hasattr(path, 'read'):
-        f = path
-    else:
-        f = open(path, 'rb')
+    if path:
+        if hasattr(path, 'read'):
+            f = path
+        else:
+            f = open(path, 'rb')
 
-    book = openpyxl.load_workbook(f, read_only=True, data_only=True)
+        book = openpyxl.load_workbook(f, read_only=True, data_only=True)
 
-    if isinstance(sheet, six.string_types):
-        sheet = book[sheet]
-    elif isinstance(sheet, int):
-        sheet = book.worksheets[sheet]
-    else:
-        sheet = book.active
+        if isinstance(sheet, six.string_types):
+            sheet = book[sheet]
+        elif isinstance(sheet, int):
+            sheet = book.worksheets[sheet]
+        else:
+            sheet = book.active
 
     column_names = []
     rows = []
@@ -69,7 +70,8 @@ def from_xlsx(cls, path, sheet=None, skip_lines=0, **kwargs):
 
         rows.append(values)
 
-    f.close()
+    if path:
+        f.close()
 
     return agate.Table(rows, column_names, **kwargs)
 

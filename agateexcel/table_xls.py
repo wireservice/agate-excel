@@ -17,23 +17,24 @@ def from_xls(cls, path, sheet=None, skip_lines=0, **kwargs):
     :param path:
         Path to an XLS file to load or a file-like object for one.
     :param sheet:
-        The name of a worksheet to load. If not specified then the first
-        sheet will be used.
+        The name or integer index of a worksheet to load. If not specified
+        then the first sheet will be used.
     :param skip_lines:
         The number of rows to skip from the top of the sheet.
     """
-    if hasattr(path, 'read'):
-        book = xlrd.open_workbook(file_contents=path.read())
-    else:
-        with open(path, 'rb') as f:
-            book = xlrd.open_workbook(file_contents=f.read())
+    if path:
+        if hasattr(path, 'read'):
+            book = xlrd.open_workbook(file_contents=path.read())
+        else:
+            with open(path, 'rb') as f:
+                book = xlrd.open_workbook(file_contents=f.read())
 
-    if isinstance(sheet, six.string_types):
-        sheet = book.sheet_by_name(sheet)
-    elif isinstance(sheet, int):
-        sheet = book.sheet_by_index(sheet)
-    else:
-        sheet = book.sheet_by_index(0)
+        if isinstance(sheet, six.string_types):
+            sheet = book.sheet_by_name(sheet)
+        elif isinstance(sheet, int):
+            sheet = book.sheet_by_index(sheet)
+        else:
+            sheet = book.sheet_by_index(0)
 
     column_names = []
     columns = []
@@ -52,7 +53,7 @@ def from_xls(cls, path, sheet=None, skip_lines=0, **kwargs):
         if excel_type == xlrd.biffh.XL_CELL_BOOLEAN:
             values = normalize_booleans(values)
         elif excel_type == xlrd.biffh.XL_CELL_DATE:
-            values = normalize_dates(values, book.datemode)
+            values = normalize_dates(values, sheet.book.datemode)
 
         column_names.append(name)
         columns.append(values)
