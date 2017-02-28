@@ -59,6 +59,21 @@ class TestXLS(agate.AgateTestCase):
         self.assertColumnTypes(table, [agate.Number, agate.Text, agate.Boolean, agate.Date, agate.DateTime])
         self.assertRows(table, [r.values() for r in self.table.rows])
 
+    def test_sheet_multiple(self):
+        tables = agate.Table.from_xls('examples/test_sheets.xls', ['not this sheet', 1])
+
+        self.assertEqual(len(tables), 2)
+
+        table = tables['not this sheet']
+        self.assertColumnNames(table, [])
+        self.assertColumnTypes(table, [])
+        self.assertRows(table, [])
+
+        table = tables['data']
+        self.assertColumnNames(table, self.column_names)
+        self.assertColumnTypes(table, [agate.Number, agate.Text, agate.Boolean, agate.Date, agate.DateTime])
+        self.assertRows(table, [r.values() for r in self.table.rows])
+
     def test_skip_lines(self):
         table = agate.Table.from_xls('examples/test_skip_lines.xls', skip_lines=3)
 

@@ -5,6 +5,7 @@ This module contains the XLS extension to :class:`Table <agate.table.Table>`.
 """
 
 import datetime
+from collections import OrderedDict
 
 import agate
 import six
@@ -17,18 +18,29 @@ def from_xls(cls, path, sheet=None, skip_lines=0, **kwargs):
     :param path:
         Path to an XLS file to load or a file-like object for one.
     :param sheet:
-        The name or integer index of a worksheet to load. If not specified
+        The names or integer indices of the worksheets to load. If not specified
         then the first sheet will be used.
     :param skip_lines:
         The number of rows to skip from the top of the sheet.
     """
-    if path:
-        if hasattr(path, 'read'):
-            book = xlrd.open_workbook(file_contents=path.read())
-        else:
-            with open(path, 'rb') as f:
-                book = xlrd.open_workbook(file_contents=f.read())
+    if not isinstance(skip_lines, int):
+        raise ValueError('skip_lines argument must be an int')
 
+    if hasattr(path, 'read'):
+        book = xlrd.open_workbook(file_contents=path.read())
+    else:
+        with open(path, 'rb') as f:
+            book = xlrd.open_workbook(file_contents=f.read())
+
+    multiple = agate.utils.issequence(sheet)
+    if multiple:
+        sheets = sheet
+    else:
+        sheets = [sheet]
+
+    tables = OrderedDict()
+
+    for i, sheet in enumerate(sheets):
         if isinstance(sheet, six.string_types):
             sheet = book.sheet_by_name(sheet)
         elif isinstance(sheet, int):
@@ -36,35 +48,37 @@ def from_xls(cls, path, sheet=None, skip_lines=0, **kwargs):
         else:
             sheet = book.sheet_by_index(0)
 
-    column_names = []
-    columns = []
+        column_names = []
+        columns = []
 
-    if not isinstance(skip_lines, int):
-        raise ValueError('skip_lines argument must be an int')
+        for i in range(sheet.ncols):
+            data = sheet.col_values(i)
+            name = six.text_type(data[skip_lines]) or None
+            values = data[skip_lines + 1:]
+            types = sheet.col_types(i)[skip_lines + 1:]
 
-    for i in range(sheet.ncols):
-        data = sheet.col_values(i)
-        name = six.text_type(data[skip_lines]) or None
-        values = data[skip_lines + 1:]
-        types = sheet.col_types(i)[skip_lines + 1:]
+            excel_type = determine_excel_type(types)
 
-        excel_type = determine_excel_type(types)
+            if excel_type == xlrd.biffh.XL_CELL_BOOLEAN:
+                values = normalize_booleans(values)
+            elif excel_type == xlrd.biffh.XL_CELL_DATE:
+                values = normalize_dates(values, book.datemode)
 
-        if excel_type == xlrd.biffh.XL_CELL_BOOLEAN:
-            values = normalize_booleans(values)
-        elif excel_type == xlrd.biffh.XL_CELL_DATE:
-            values = normalize_dates(values, sheet.book.datemode)
+            column_names.append(name)
+            columns.append(values)
 
-        column_names.append(name)
-        columns.append(values)
+        rows = []
 
-    rows = []
+        if columns:
+            for i in range(len(columns[0])):
+                rows.append([c[i] for c in columns])
 
-    if columns:
-        for i in range(len(columns[0])):
-            rows.append([c[i] for c in columns])
+        tables[sheet.name] = agate.Table(rows, column_names, **kwargs)
 
-    return agate.Table(rows, column_names, **kwargs)
+    if multiple:
+        return agate.MappedSequence(tables.values(), tables.keys())
+    else:
+        return tables.popitem()[1]
 
 def determine_excel_type(types):
     """
