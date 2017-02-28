@@ -35,7 +35,16 @@ Importing agate-excel adds methods to :class:`agate.Table <agate.table.Table>`. 
   table = agate.Table.from_xlsx('examples/test.xlsx')
   print(table)
 
-Both methods accept a :code:`sheet` argument to specify which sheet to create the table from.
+  table = agate.Table.from_xlsx('examples/test.xlsx', sheet=1)
+  print(table)
+
+  table = agate.Table.from_xlsx('examples/test.xlsx', sheet='dummy')
+  print(table)
+
+  table = agate.Table.from_xlsx('examples/test.xlsx', sheet=[1, 'dummy'])
+  print(table)
+
+Both ``Table`` methods accept a :code:`sheet` argument to specify which sheet to create the table from.
 
 ===
 API

@@ -5,6 +5,7 @@ This module contains the XLSX extension to :class:`Table <agate.table.Table>`.
 """
 
 import datetime
+from collections import OrderedDict
 
 import agate
 import openpyxl
@@ -17,13 +18,16 @@ def from_xlsx(cls, path, sheet=None, skip_lines=0, **kwargs):
     Parse an XLSX file.
 
     :param path:
-        Path to an XLSX file to load or a file or file-like object for one.
+        Path to an XLSX file to load or a file-like object for one.
     :param sheet:
-        The name or integer index of a worksheet to load. If not specified
+        The names or integer indices of the worksheets to load. If not specified
         then the "active" sheet will be used.
     :param skip_lines:
         The number of rows to skip from the top of the sheet.
     """
+    if not isinstance(skip_lines, int):
+        raise ValueError('skip_lines argument must be an int')
+
     if hasattr(path, 'read'):
         f = path
     else:
@@ -31,47 +35,58 @@ def from_xlsx(cls, path, sheet=None, skip_lines=0, **kwargs):
 
     book = openpyxl.load_workbook(f, read_only=True, data_only=True)
 
-    if isinstance(sheet, six.string_types):
-        sheet = book[sheet]
-    elif isinstance(sheet, int):
-        sheet = book.worksheets[sheet]
+    multiple = agate.utils.issequence(sheet)
+    if multiple:
+        sheets = sheet
     else:
-        sheet = book.active
+        sheets = [sheet]
 
-    column_names = []
-    rows = []
+    tables = OrderedDict()
 
-    if not isinstance(skip_lines, int):
-        raise ValueError('skip_lines argument must be an int')
+    for i, sheet in enumerate(sheets):
+        if isinstance(sheet, six.string_types):
+            sheet = book[sheet]
+        elif isinstance(sheet, int):
+            sheet = book.worksheets[sheet]
+        else:
+            sheet = book.active
 
-    for i, row in enumerate(sheet.iter_rows(row_offset=skip_lines)):
-        if i == 0:
-            column_names = [None if c.value is None else six.text_type(c.value) for c in row]
-            continue
+        column_names = []
+        rows = []
 
-        values = []
+        for i, row in enumerate(sheet.iter_rows(row_offset=skip_lines)):
+            if i == 0:
+                column_names = [None if c.value is None else six.text_type(c.value) for c in row]
+                continue
 
-        for c in row:
-            value = c.value
+            values = []
 
-            if value.__class__ is datetime.datetime:
-                # Handle default XLSX date as 00:00 time
-                if value.date() == datetime.date(1904, 1, 1) and not has_date_elements(c):
-                    value = value.time()
+            for c in row:
+                value = c.value
 
-                    value = normalize_datetime(value)
-                elif value.time() == NULL_TIME:
-                    value = value.date()
-                else:
-                    value = normalize_datetime(value)
+                if value.__class__ is datetime.datetime:
+                    # Handle default XLSX date as 00:00 time
+                    if value.date() == datetime.date(1904, 1, 1) and not has_date_elements(c):
+                        value = value.time()
 
-            values.append(value)
+                        value = normalize_datetime(value)
+                    elif value.time() == NULL_TIME:
+                        value = value.date()
+                    else:
+                        value = normalize_datetime(value)
 
-        rows.append(values)
+                values.append(value)
+
+            rows.append(values)
+
+        tables[sheet.title] = agate.Table(rows, column_names, **kwargs)
 
     f.close()
 
-    return agate.Table(rows, column_names, **kwargs)
+    if multiple:
+        return agate.MappedSequence(tables.values(), tables.keys())
+    else:
+        return tables.popitem()[1]
 
 def normalize_datetime(dt):
     if dt.microsecond == 0:
