@@ -1,5 +1,5 @@
-0.2.1
------
+0.2.1 - February 28, 2017
+-------------------------
 
 * Overload :meth:`.Table.from_xls` and :meth:`.Table.from_xlsx` to accept and return multiple sheets.
 * Add a ``skip_lines`` argument to :meth:`.Table.from_xls` and :meth:`.Table.from_xlsx` to skip rows from the top of the sheet.
