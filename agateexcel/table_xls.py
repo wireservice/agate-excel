@@ -11,7 +11,7 @@ import agate
 import six
 import xlrd
 
-def from_xls(cls, path, sheet=None, skip_lines=0, **kwargs):
+def from_xls(cls, path, sheet=None, skip_lines=0, encoding_override=None, **kwargs):
     """
     Parse an XLS file.
 
@@ -27,10 +27,10 @@ def from_xls(cls, path, sheet=None, skip_lines=0, **kwargs):
         raise ValueError('skip_lines argument must be an int')
 
     if hasattr(path, 'read'):
-        book = xlrd.open_workbook(file_contents=path.read())
+        book = xlrd.open_workbook(file_contents=path.read(), encoding_override=encoding_override)
     else:
         with open(path, 'rb') as f:
-            book = xlrd.open_workbook(file_contents=f.read())
+            book = xlrd.open_workbook(file_contents=f.read(), encoding_override=encoding_override)
 
     multiple = agate.utils.issequence(sheet)
     if multiple:

@@ -1,7 +1,7 @@
 0.2.2
 -----
 
-
+* Add an ``encoding_override`` argument to :meth:`.Table.from_xls` to override the encoding of the input XLS file.
 
 0.2.1 - February 28, 2017
 -------------------------
