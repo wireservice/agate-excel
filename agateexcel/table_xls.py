@@ -11,6 +11,7 @@ import agate
 import six
 import xlrd
 
+
 def from_xls(cls, path, sheet=None, skip_lines=0, encoding_override=None, **kwargs):
     """
     Parse an XLS file.
@@ -80,6 +81,7 @@ def from_xls(cls, path, sheet=None, skip_lines=0, encoding_override=None, **kwar
     else:
         return tables.popitem()[1]
 
+
 def determine_excel_type(types):
     """
     Determine the correct type for a column from a list of cell types.
@@ -96,6 +98,7 @@ def determine_excel_type(types):
     except KeyError:
         return xlrd.biffh.XL_CELL_EMPTY
 
+
 def normalize_booleans(values):
     normalized = []
 
@@ -106,6 +109,7 @@ def normalize_booleans(values):
             normalized.append(bool(value))
 
     return normalized
+
 
 def normalize_dates(values, datemode=0):
     """
@@ -130,5 +134,6 @@ def normalize_dates(values, datemode=0):
             normalized.append(datetime.datetime(*v_tuple[:6]))
 
     return normalized
+
 
 agate.Table.from_xls = classmethod(from_xls)

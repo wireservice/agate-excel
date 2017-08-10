@@ -3,13 +3,9 @@
 
 import datetime
 
-try:
-    import unittest2 as unittest
-except ImportError:
-    import unittest
-
 import agate
-import agateexcel
+import agateexcel  # noqa
+
 
 class TestXLSX(agate.AgateTestCase):
     def setUp(self):

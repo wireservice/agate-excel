@@ -13,6 +13,7 @@ import six
 
 NULL_TIME = datetime.time(0, 0, 0)
 
+
 def from_xlsx(cls, path, sheet=None, skip_lines=0, **kwargs):
     """
     Parse an XLSX file.
@@ -88,6 +89,7 @@ def from_xlsx(cls, path, sheet=None, skip_lines=0, **kwargs):
     else:
         return tables.popitem()[1]
 
+
 def normalize_datetime(dt):
     if dt.microsecond == 0:
         return dt
@@ -101,17 +103,14 @@ def normalize_datetime(dt):
 
     return dt
 
+
 def has_date_elements(cell):
     """
     Try to use formatting to determine if a cell contains only time info.
 
     See: http://office.microsoft.com/en-us/excel-help/number-format-codes-HP005198679.aspx
     """
-    if 'd' in cell.number_format or \
-        'y' in cell.number_format:
+    return 'd' in cell.number_format or 'y' in cell.number_format
 
-        return True
-
-    return False
 
 agate.Table.from_xlsx = classmethod(from_xlsx)
