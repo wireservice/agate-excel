@@ -14,7 +14,7 @@ import six
 NULL_TIME = datetime.time(0, 0, 0)
 
 
-def from_xlsx(cls, path, sheet=None, skip_lines=0, header=True, **kwargs):
+def from_xlsx(cls, path, sheet=None, skip_lines=0, header=True, read_only=True, **kwargs):
     """
     Parse an XLSX file.
 
@@ -36,7 +36,7 @@ def from_xlsx(cls, path, sheet=None, skip_lines=0, header=True, **kwargs):
     else:
         f = open(path, 'rb')
 
-    book = openpyxl.load_workbook(f, read_only=True, data_only=True)
+    book = openpyxl.load_workbook(f, read_only=read_only, data_only=True)
 
     multiple = agate.utils.issequence(sheet)
     if multiple:

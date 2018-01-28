@@ -3,6 +3,7 @@
 
 * Add an ``encoding_override`` argument to :meth:`.Table.from_xls` to override the encoding of the input XLS file.
 * Add a ``header`` argument to :meth:`.Table.from_xls` and :meth:`.Table.from_xlsx` to indicate the presence of a header row.
+* Add a ``read_only`` argument to :meth:`.Table.from_xlsx` to allow disabling read-only mode for `some spreadsheets <https://openpyxl.readthedocs.io/en/default/optimized.html#worksheet-dimensions>`_.
 
 0.2.1 - February 28, 2017
 -------------------------
