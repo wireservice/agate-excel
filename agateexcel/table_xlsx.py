@@ -14,7 +14,7 @@ import six
 NULL_TIME = datetime.time(0, 0, 0)
 
 
-def from_xlsx(cls, path, sheet=None, skip_lines=0, **kwargs):
+def from_xlsx(cls, path, sheet=None, skip_lines=0, header=True, **kwargs):
     """
     Parse an XLSX file.
 
@@ -25,6 +25,8 @@ def from_xlsx(cls, path, sheet=None, skip_lines=0, **kwargs):
         then the "active" sheet will be used.
     :param skip_lines:
         The number of rows to skip from the top of the sheet.
+    :param header:
+        If :code:`True`, the first row is assumed to contain column names.
     """
     if not isinstance(skip_lines, int):
         raise ValueError('skip_lines argument must be an int')
@@ -52,11 +54,11 @@ def from_xlsx(cls, path, sheet=None, skip_lines=0, **kwargs):
         else:
             sheet = book.active
 
-        column_names = []
+        column_names = None
         rows = []
 
         for i, row in enumerate(sheet.iter_rows(row_offset=skip_lines)):
-            if i == 0:
+            if i == 0 and header:
                 column_names = [None if c.value is None else six.text_type(c.value) for c in row]
                 continue
 

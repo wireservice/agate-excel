@@ -12,16 +12,16 @@ class TestXLSX(agate.AgateTestCase):
         self.rows = (
             (1, 'a', True, '11/4/2015', '11/4/2015 12:22 PM'),
             (2, u'👍', False, '11/5/2015', '11/4/2015 12:45 PM'),
-            (None, 'b', None, None, None)
+            (None, 'b', None, None, None),
         )
 
         self.column_names = [
-            'number', 'text', 'boolean', 'date', 'datetime'
+            'number', 'text', 'boolean', 'date', 'datetime',
         ]
 
         self.column_types = [
             agate.Number(), agate.Text(), agate.Boolean(),
-            agate.Date(), agate.DateTime()
+            agate.Date(), agate.DateTime(),
         ]
 
         self.table = agate.Table(self.rows, self.column_names, self.column_types)
@@ -77,13 +77,25 @@ class TestXLSX(agate.AgateTestCase):
         self.assertColumnTypes(table, [agate.Number, agate.Text, agate.Boolean, agate.Date, agate.DateTime])
         self.assertRows(table, [r.values() for r in self.table.rows])
 
+    def test_header(self):
+        table = agate.Table.from_xls('examples/test_zeros.xls', header=False)
+
+        self.assertColumnNames(table, ('a', 'b', 'c'))
+        self.assertColumnTypes(table, [agate.Text, agate.Text, agate.Text])
+        self.assertRows(table, [
+            ['ordinal', 'binary', 'all_zero'],
+            ['0.0', '0.0', '0.0'],
+            ['1.0', '1.0', '0.0'],
+            ['2.0', '1.0', '0.0'],
+        ])
+
     def test_ambiguous_date(self):
         table = agate.Table.from_xlsx('examples/test_ambiguous_date.xlsx')
 
         self.assertColumnNames(table, ['s'])
         self.assertColumnTypes(table, [agate.Date])
         self.assertRows(table, [
-            [datetime.date(1899, 12, 31)]
+            [datetime.date(1899, 12, 31)],
         ])
 
     def test_empty(self):
@@ -99,5 +111,5 @@ class TestXLSX(agate.AgateTestCase):
         self.assertColumnNames(table, ['Country', '2013', 'c'])
         self.assertColumnTypes(table, [agate.Text, agate.Number, agate.Text])
         self.assertRows(table, [
-            ['Canada', 35160000, 'value']
+            ['Canada', 35160000, 'value'],
         ])

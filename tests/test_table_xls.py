@@ -12,16 +12,16 @@ class TestXLS(agate.AgateTestCase):
         self.rows = (
             (1, 'a', True, '11/4/2015', '11/4/2015 12:22 PM'),
             (2, u'👍', False, '11/5/2015', '11/4/2015 12:45 PM'),
-            (None, 'b', None, None, None)
+            (None, 'b', None, None, None),
         )
 
         self.column_names = [
-            'number', 'text', 'boolean', 'date', 'datetime'
+            'number', 'text', 'boolean', 'date', 'datetime',
         ]
 
         self.column_types = [
             agate.Number(), agate.Text(), agate.Boolean(),
-            agate.Date(), agate.DateTime()
+            agate.Date(), agate.DateTime(),
         ]
 
         self.table = agate.Table(self.rows, self.column_names, self.column_types)
@@ -77,6 +77,18 @@ class TestXLS(agate.AgateTestCase):
         self.assertColumnTypes(table, [agate.Number, agate.Text, agate.Boolean, agate.Date, agate.DateTime])
         self.assertRows(table, [r.values() for r in self.table.rows])
 
+    def test_header(self):
+        table = agate.Table.from_xls('examples/test_zeros.xls', header=False)
+
+        self.assertColumnNames(table, ('a', 'b', 'c'))
+        self.assertColumnTypes(table, [agate.Text, agate.Text, agate.Text])
+        self.assertRows(table, [
+            ['ordinal', 'binary', 'all_zero'],
+            ['0.0', '0.0', '0.0'],
+            ['1.0', '1.0', '0.0'],
+            ['2.0', '1.0', '0.0'],
+        ])
+
     def test_zeros(self):
         table = agate.Table.from_xls('examples/test_zeros.xls')
 
@@ -85,7 +97,7 @@ class TestXLS(agate.AgateTestCase):
         self.assertRows(table, [
             [0, 0, 0],
             [1, 1, 0],
-            [2, 1, 0]
+            [2, 1, 0],
         ])
 
     def test_ambiguous_date(self):
@@ -94,7 +106,7 @@ class TestXLS(agate.AgateTestCase):
         self.assertColumnNames(table, ['s'])
         self.assertColumnTypes(table, [agate.Date])
         self.assertRows(table, [
-            [datetime.date(1900, 1, 1)]
+            [datetime.date(1900, 1, 1)],
         ])
 
     def test_empty(self):
@@ -110,5 +122,5 @@ class TestXLS(agate.AgateTestCase):
         self.assertColumnNames(table, ('Country', '2013.0', 'c'))
         self.assertColumnTypes(table, [agate.Text, agate.Number, agate.Text])
         self.assertRows(table, [
-            ['Canada', 35160000, 'value']
+            ['Canada', 35160000, 'value'],
         ])

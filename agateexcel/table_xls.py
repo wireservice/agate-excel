@@ -12,7 +12,7 @@ import six
 import xlrd
 
 
-def from_xls(cls, path, sheet=None, skip_lines=0, encoding_override=None, **kwargs):
+def from_xls(cls, path, sheet=None, skip_lines=0, header=True, encoding_override=None, **kwargs):
     """
     Parse an XLS file.
 
@@ -23,6 +23,8 @@ def from_xls(cls, path, sheet=None, skip_lines=0, encoding_override=None, **kwar
         then the first sheet will be used.
     :param skip_lines:
         The number of rows to skip from the top of the sheet.
+    :param header:
+        If :code:`True`, the first row is assumed to contain column names.
     """
     if not isinstance(skip_lines, int):
         raise ValueError('skip_lines argument must be an int')
@@ -49,15 +51,19 @@ def from_xls(cls, path, sheet=None, skip_lines=0, encoding_override=None, **kwar
         else:
             sheet = book.sheet_by_index(0)
 
-        column_names = []
+        if header:
+            offset = 1
+            column_names = []
+        else:
+            offset = 0
+            column_names = None
+
         columns = []
 
         for i in range(sheet.ncols):
             data = sheet.col_values(i)
-            name = six.text_type(data[skip_lines]) or None
-            values = data[skip_lines + 1:]
-            types = sheet.col_types(i)[skip_lines + 1:]
-
+            values = data[skip_lines + offset:]
+            types = sheet.col_types(i)[skip_lines + offset:]
             excel_type = determine_excel_type(types)
 
             if excel_type == xlrd.biffh.XL_CELL_BOOLEAN:
@@ -65,7 +71,10 @@ def from_xls(cls, path, sheet=None, skip_lines=0, encoding_override=None, **kwar
             elif excel_type == xlrd.biffh.XL_CELL_DATE:
                 values = normalize_dates(values, book.datemode)
 
-            column_names.append(name)
+            if header:
+                name = six.text_type(data[skip_lines]) or None
+                column_names.append(name)
+
             columns.append(values)
 
         rows = []
