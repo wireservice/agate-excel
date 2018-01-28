@@ -2,10 +2,6 @@
     :target: https://travis-ci.org/wireservice/agate-excel
     :alt: Build status
 
-.. image:: https://img.shields.io/pypi/dw/agate-excel.svg
-    :target: https://pypi.python.org/pypi/agate-excel
-    :alt: PyPI downloads
-
 .. image:: https://img.shields.io/pypi/v/agate-excel.svg
     :target: https://pypi.python.org/pypi/agate-excel
     :alt: Version
