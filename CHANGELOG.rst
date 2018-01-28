@@ -1,5 +1,8 @@
-0.2.2
+0.2.3
 -----
+
+0.2.2 - January 28, 2018
+------------------------
 
 * Add an ``encoding_override`` argument to :meth:`.Table.from_xls` to override the encoding of the input XLS file.
 * Add a ``header`` argument to :meth:`.Table.from_xls` and :meth:`.Table.from_xlsx` to indicate the presence of a header row.
