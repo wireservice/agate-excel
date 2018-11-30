@@ -19,12 +19,23 @@ class TestXLSX(agate.AgateTestCase):
             'number', 'text', 'boolean', 'date', 'datetime',
         ]
 
+        self.user_provided_column_names = [
+            'number', 'text', 'boolean', 'date', 'datetime',
+        ]
+
         self.column_types = [
             agate.Number(), agate.Text(), agate.Boolean(),
             agate.Date(), agate.DateTime(),
         ]
 
         self.table = agate.Table(self.rows, self.column_names, self.column_types)
+
+    def test_from_xlsx_with_column_names(self):
+        table = agate.Table.from_xlsx('examples/test.xlsx', header=False, skip_lines=1, column_names=self.user_provided_column_names)
+
+        self.assertColumnNames(table, self.user_provided_column_names)
+        self.assertColumnTypes(table, [agate.Number, agate.Text, agate.Boolean, agate.Date, agate.DateTime])
+        self.assertRows(table, [r.values() for r in self.table.rows])
 
     def test_from_xlsx(self):
         table = agate.Table.from_xlsx('examples/test.xlsx')

@@ -82,6 +82,11 @@ def from_xlsx(cls, path, sheet=None, skip_lines=0, header=True, read_only=True, 
 
             rows.append(values)
 
+        if 'column_names' in kwargs:
+            if not header:
+                column_names = kwargs.get('column_names', None)
+            del kwargs['column_names']
+
         tables[sheet.title] = agate.Table(rows, column_names, **kwargs)
 
     f.close()

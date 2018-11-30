@@ -83,6 +83,11 @@ def from_xls(cls, path, sheet=None, skip_lines=0, header=True, encoding_override
             for i in range(len(columns[0])):
                 rows.append([c[i] for c in columns])
 
+        if 'column_names' in kwargs:
+            if not header:
+                column_names = kwargs.get('column_names', None)
+            del kwargs['column_names']
+
         tables[sheet.name] = agate.Table(rows, column_names, **kwargs)
 
     if multiple:
