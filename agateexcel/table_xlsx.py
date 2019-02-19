@@ -57,7 +57,7 @@ def from_xlsx(cls, path, sheet=None, skip_lines=0, header=True, read_only=True, 
         column_names = None
         rows = []
 
-        for i, row in enumerate(sheet.iter_rows(row_offset=skip_lines)):
+        for i, row in enumerate(sheet.iter_rows(min_row=skip_lines+1)):
             if i == 0 and header:
                 column_names = [None if c.value is None else six.text_type(c.value) for c in row]
                 continue
