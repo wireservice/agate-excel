@@ -5,3 +5,4 @@ The following individuals have contributed code to agate-excel:
 * `Ben Welsh <https://github.com/palewire>`_
 * `Peter M. Landwehr <https://github.com/pmlandwehr>`_
 * `Tim Freund <https://github.com/timfreund>`_
+* `Jani Mikkonen <https://github.com/rasjani>`_

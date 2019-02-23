@@ -1,6 +1,7 @@
 0.2.3
 -----
 
+* Fix bug in accepting ``column_names`` as keyword argument.
 * agate-excel is now tested against Python 3.6 and 3.7.
 * Drop support for Python 3.3 (end-of-life was September 29, 2017).
 * Add support for openpyxl 2.6.0.
