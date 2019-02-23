@@ -1,6 +1,10 @@
 0.2.3
 -----
 
+* agate-excel is now tested against Python 3.6 and 3.7.
+* Drop support for Python 3.3 (end-of-life was September 29, 2017).
+* Add support for openpyxl 2.6.0.
+
 0.2.2 - January 28, 2018
 ------------------------
 
