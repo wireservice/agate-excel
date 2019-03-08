@@ -14,7 +14,8 @@ import six
 NULL_TIME = datetime.time(0, 0, 0)
 
 
-def from_xlsx(cls, path, sheet=None, skip_lines=0, header=True, read_only=True, **kwargs):
+def from_xlsx(cls, path, sheet=None, skip_lines=0, header=True, read_only=True, 
+              reset_dimensions=False, **kwargs):
     """
     Parse an XLSX file.
 
@@ -27,6 +28,9 @@ def from_xlsx(cls, path, sheet=None, skip_lines=0, header=True, read_only=True, 
         The number of rows to skip from the top of the sheet.
     :param header:
         If :code:`True`, the first row is assumed to contain column names.
+    :param reset_dimensions:
+        If :code:`True`, do not trust the dimensions in the file's properties, 
+        and recalculate them based on the data in the file.
     """
     if not isinstance(skip_lines, int):
         raise ValueError('skip_lines argument must be an int')
@@ -56,6 +60,9 @@ def from_xlsx(cls, path, sheet=None, skip_lines=0, header=True, read_only=True, 
 
         column_names = None
         rows = []
+
+        if reset_dimensions:
+            sheet.reset_dimensions()
 
         for i, row in enumerate(sheet.iter_rows(min_row=skip_lines + 1)):
             if i == 0 and header:
