@@ -1,5 +1,8 @@
-0.2.3
+0.2.4
 -----
+
+0.2.3 - March 16, 2019
+----------------------
 
 * Fix bug in accepting ``column_names`` as keyword argument.
 * Add a ``reset_dimensions`` argument to :meth:`.Table.from_xlsx` to recalculate the data's dimensions, instead of trusting those in the file's properties.
