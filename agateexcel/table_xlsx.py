@@ -52,9 +52,17 @@ def from_xlsx(cls, path, sheet=None, skip_lines=0, header=True, read_only=True,
 
     for i, sheet in enumerate(sheets):
         if isinstance(sheet, six.string_types):
-            sheet = book[sheet]
+            try:
+                sheet = book[sheet]
+            except KeyError:
+                f.close()
+                raise
         elif isinstance(sheet, int):
-            sheet = book.worksheets[sheet]
+            try:
+                sheet = book.worksheets[sheet]
+            except IndexError:
+                f.close()
+                raise
         else:
             sheet = book.active
 

@@ -1,6 +1,8 @@
 0.2.4
 -----
 
+* Close XLSX file before raising error for non-existent sheet.
+
 0.2.3 - March 16, 2019
 ----------------------
 
