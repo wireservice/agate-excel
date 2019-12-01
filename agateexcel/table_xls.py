@@ -12,6 +12,17 @@ import six
 import xlrd
 
 
+EXCEL_TO_AGATE_TYPE = {
+    xlrd.biffh.XL_CELL_EMPTY: agate.Boolean(),
+    xlrd.biffh.XL_CELL_TEXT: agate.Text(),
+    xlrd.biffh.XL_CELL_NUMBER: agate.Number(),
+    xlrd.biffh.XL_CELL_DATE: agate.DateTime(),
+    xlrd.biffh.XL_CELL_BOOLEAN: agate.Boolean(),
+    xlrd.biffh.XL_CELL_ERROR: agate.Text(),
+    xlrd.biffh.XL_CELL_BLANK: agate.Boolean(),
+}
+
+
 def from_xls(cls, path, sheet=None, skip_lines=0, header=True, encoding_override=None, **kwargs):
     """
     Parse an XLS file.
@@ -59,23 +70,30 @@ def from_xls(cls, path, sheet=None, skip_lines=0, header=True, encoding_override
             column_names = None
 
         columns = []
+        column_types = []
 
         for i in range(sheet.ncols):
             data = sheet.col_values(i)
             values = data[skip_lines + offset:]
             types = sheet.col_types(i)[skip_lines + offset:]
             excel_type = determine_excel_type(types)
+            agate_type = determine_agate_type(excel_type)
 
             if excel_type == xlrd.biffh.XL_CELL_BOOLEAN:
                 values = normalize_booleans(values)
             elif excel_type == xlrd.biffh.XL_CELL_DATE:
-                values = normalize_dates(values, book.datemode)
+                values, with_date, with_time = normalize_dates(values, book.datemode)
+                if not with_date:
+                    agate_type = agate.TimeDelta()
+                if not with_time:
+                    agate_type = agate.Date()
 
             if header:
                 name = six.text_type(data[skip_lines]) or None
                 column_names.append(name)
 
             columns.append(values)
+            column_types.append(agate_type)
 
         rows = []
 
@@ -88,12 +106,23 @@ def from_xls(cls, path, sheet=None, skip_lines=0, header=True, encoding_override
                 column_names = kwargs['column_names']
             del kwargs['column_names']
 
-        tables[sheet.name] = agate.Table(rows, column_names, **kwargs)
+        if 'column_types' in kwargs:
+            column_types = kwargs['column_types']
+            del kwargs['column_types']
+
+        tables[sheet.name] = agate.Table(rows, column_names, column_types, **kwargs)
 
     if multiple:
         return agate.MappedSequence(tables.values(), tables.keys())
     else:
         return tables.popitem()[1]
+
+
+def determine_agate_type(excel_type):
+    try:
+        return EXCEL_TO_AGATE_TYPE[excel_type]
+    except KeyError:
+        return agate.Text()
 
 
 def determine_excel_type(types):
@@ -130,6 +159,8 @@ def normalize_dates(values, datemode=0):
     Normalize a column of date cells.
     """
     normalized = []
+    with_date = False
+    with_time = False
 
     for v in values:
         if not v:
@@ -141,13 +172,18 @@ def normalize_dates(values, datemode=0):
         if v_tuple[3:6] == (0, 0, 0):
             # Date only
             normalized.append(datetime.date(*v_tuple[:3]))
+            with_date = True
         elif v_tuple[:3] == (0, 0, 0):
+            # Time only
             normalized.append(datetime.time(*v_tuple[3:6]))
+            with_time = True
         else:
             # Date and time
             normalized.append(datetime.datetime(*v_tuple[:6]))
+            with_date = True
+            with_time = True
 
-    return normalized
+    return (normalized, with_date, with_time)
 
 
 agate.Table.from_xls = classmethod(from_xls)
