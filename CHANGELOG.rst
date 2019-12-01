@@ -1,7 +1,8 @@
-0.2.4
------
+0.2.4 - Unreleased
+------------------
 
 * Close XLSX file before raising error for non-existent sheet.
+* Drop support for Python 3.4 (end-of-life was March 18, 2019).
 
 0.2.3 - March 16, 2019
 ----------------------
@@ -29,8 +30,8 @@
 * Fix bug in handling an empty XLS.
 * Fix bug in handling non-string column names in XLSX.
 
-0.2.0
------
+0.2.0 - December 19, 2016
+-------------------------
 
 * Fix bug in handling of ``None`` in boolean columns for XLS. (#11)
 * Removed usage of deprecated openpyxl method ``get_sheet_by_name``.
@@ -38,7 +39,7 @@
 * Upgrade required agate version to ``1.5.0``.
 * Ensure columns with numbers for names (e.g. years) are parsed as strings.
 
-0.1.0
------
+0.1.0 - February 5, 2016
+------------------------
 
 * Initial version.
