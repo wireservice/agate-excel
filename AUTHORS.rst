@@ -8,3 +8,4 @@ The following individuals have contributed code to agate-excel:
 * `Jani Mikkonen <https://github.com/rasjani>`_
 * `Loïc Corbasson <https://github.com/lcorbasson>`_
 * `Robert Schütz <https://github.com/dotlambda>`_
+* `Loïc Corbasson <https://github.com/lcorbasson>`_
