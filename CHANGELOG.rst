@@ -1,8 +1,9 @@
 0.2.4 - Unreleased
 ------------------
 
-* Preserve column types from XLS files.
+* Preserve column types from XLS files. (#36)
 * Close XLSX file before raising error for non-existent sheet.
+* Use less memory and close XLS files. (#39)
 * Drop support for Python 3.4 (end-of-life was March 18, 2019).
 
 0.2.3 - March 16, 2019
