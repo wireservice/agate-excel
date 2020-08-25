@@ -20,11 +20,11 @@ jobs:
       osx_image: xcode11.2  # Python 3.7.4 running on macOS 10.14.4
       language: shell       # 'language: python' is an error on Travis CI macOS
       before_install:
-        - python3 -m pip install --upgrade pip
-        - python3 -m pip install --upgrade virtualenv
-        - virtualenv -p python3 --system-site-packages "$HOME/venv"
-        - source "$HOME/venv/bin/activate"
-        - CFLAGS="-O0" STATIC_DEPS=true python3 -m pip install lxml
+        - pip3 install --user --upgrade pip
+#        - pip3 install --user --upgrade virtualenv
+#        - virtualenv -p python3 --system-site-packages "$HOME/venv"
+#        - source "$HOME/venv/bin/activate"
+        - CFLAGS="-O0" STATIC_DEPS=true pip3 install --user lxml
         - python3 --version
         - python --version
       env:
@@ -41,7 +41,7 @@ jobs:
       before_install:
         - choco install python --version 3.8.0
         - choco install sqlite
-        - python -m pip install --upgrade pip
+        - pip3 install --user --upgrade pip
         - python --version
       env: PATH=/c/Python38:/c/Python38/Scripts:$PATH
   # allow failure on OSes other than Linux
@@ -53,9 +53,9 @@ jobs:
 install:
   - >
     if [[ "$TRAVIS_PYTHON_VERSION" == "2"* ]] || [[ "$TRAVIS_PYTHON_VERSION" == "pypy"* ]] && [[ "$TRAVIS_PYTHON_VERSION" != "pypy3"* ]]; then
-      python -m pip install -r requirements-py2.txt;
+      pip install --user -r requirements-py2.txt;
     else
-      python3 -m pip install -r requirements-py3.txt;
+      pip3 install --user -r requirements-py3.txt;
     fi
 # command to run tests
 script: nosetests tests
