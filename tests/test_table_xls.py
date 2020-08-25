@@ -142,3 +142,10 @@ class TestXLS(agate.AgateTestCase):
         self.assertColumnNames(table, self.column_names)
         self.assertColumnTypes(table, [agate.Number, agate.Text, agate.Boolean, agate.Date, agate.DateTime])
         self.assertRows(table, [r.values() for r in self.table.rows][:2])
+
+    def test_row_limit_too_high(self):
+        table = agate.Table.from_xls('examples/test.xls', row_limit=200)
+
+        self.assertColumnNames(table, self.column_names)
+        self.assertColumnTypes(table, [agate.Number, agate.Text, agate.Boolean, agate.Date, agate.DateTime])
+        self.assertRows(table, [r.values() for r in self.table.rows])
