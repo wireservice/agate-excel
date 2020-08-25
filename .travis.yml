@@ -25,6 +25,7 @@ jobs:
         - virtualenv -p python3 --system-site-packages "$HOME/venv"
         - source "$HOME/venv/bin/activate"
         - CFLAGS="-O0" STATIC_DEPS=true python3 -m pip install lxml
+        - python3 -m pip install nose
         - python3 --version
         - python --version
       env:
