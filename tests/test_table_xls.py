@@ -135,3 +135,10 @@ class TestXLS(agate.AgateTestCase):
         self.assertRows(table, [
             ['Canada', 35160000, 'value'],
         ])
+
+    def test_row_limit(self):
+        table = agate.Table.from_xls('examples/test.xls', row_limit=2)
+
+        self.assertColumnNames(table, self.column_names)
+        self.assertColumnTypes(table, [agate.Number, agate.Text, agate.Boolean, agate.Date, agate.DateTime])
+        self.assertRows(table, [r.values() for r in self.table.rows][:2])
