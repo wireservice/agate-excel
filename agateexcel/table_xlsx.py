@@ -76,7 +76,8 @@ def from_xlsx(cls, path, sheet=None, skip_lines=0, header=True, read_only=True,
             sheet.reset_dimensions()
 
         if header:
-            column_names = [None if c.value is None else six.text_type(c.value) for c in sheet[1 + skip_lines]]
+            sheet_header = sheet.iter_rows(min_row=1 + skip_lines, max_row=1 + skip_lines)
+            column_names = [None if c.value is None else six.text_type(c.value) for row in sheet_header for c in row]
             offset = 1
 
         if row_limit is None:
