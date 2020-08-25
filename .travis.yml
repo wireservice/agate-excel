@@ -25,7 +25,6 @@ jobs:
         - virtualenv -p python3 --system-site-packages "$HOME/venv"
         - source "$HOME/venv/bin/activate"
         - CFLAGS="-O0" STATIC_DEPS=true python3 -m pip install lxml
-        - python3 -m pip install nose
         - python3 --version
         - python --version
       env:
@@ -54,9 +53,9 @@ jobs:
 install:
   - >
     if [[ "$TRAVIS_PYTHON_VERSION" == "2"* ]] || [[ "$TRAVIS_PYTHON_VERSION" == "pypy"* ]] && [[ "$TRAVIS_PYTHON_VERSION" != "pypy3"* ]]; then
-      pip install -r requirements-py2.txt;
+      python -m pip install -r requirements-py2.txt;
     else
-      pip3 install -r requirements-py3.txt;
+      python3 -m pip install -r requirements-py3.txt;
     fi
 # command to run tests
 script: nosetests tests
