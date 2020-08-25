@@ -76,8 +76,12 @@ def from_xls(cls, path, sheet=None, skip_lines=0, header=True, encoding_override
            column_types = []
 
            for i in range(sheet.ncols):
-               values = sheet.col_values(i, skip_lines + offset, skip_lines + offset + row_limit)
-               types = sheet.col_types(i, skip_lines + offset, skip_lines + offset + row_limit)
+               if row_limit is None:
+                   values = sheet.col_values(i, skip_lines + offset)
+                   types = sheet.col_types(i, skip_lines + offset)
+               else:
+                   values = sheet.col_values(i, skip_lines + offset, skip_lines + offset + row_limit)
+                   types = sheet.col_types(i, skip_lines + offset, skip_lines + offset + row_limit)
                excel_type = determine_excel_type(types)
                agate_type = determine_agate_type(excel_type)
 

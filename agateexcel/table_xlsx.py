@@ -79,7 +79,12 @@ def from_xlsx(cls, path, sheet=None, skip_lines=0, header=True, read_only=True,
             column_names = [None if c.value is None else six.text_type(c.value) for c in sheet[1 + skip_lines]]
             offset = 1
 
-        for i, row in enumerate(sheet.iter_rows(min_row=1 + skip_lines + offset, max_row=1 + skip_lines + offset + row_limit)):
+        if row_limit is None:
+            sheet_rows = sheet.iter_rows(min_row=1 + skip_lines + offset)
+        else:
+            sheet_rows = sheet.iter_rows(min_row=1 + skip_lines + offset, max_row=1 + skip_lines + offset + row_limit)
+
+        for i, row in enumerate(sheet_rows):
             values = []
 
             for c in row:
