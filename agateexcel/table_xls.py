@@ -40,13 +40,13 @@ def from_xls(cls, path, sheet=None, skip_lines=0, header=True, encoding_override
     if not isinstance(skip_lines, int):
         raise ValueError('skip_lines argument must be an int')
 
-    try:
-       if hasattr(path, 'read'):
-           book = xlrd.open_workbook(file_contents=path.read(), encoding_override=encoding_override, on_demand=True)
-       else:
-           with open(path, 'rb') as f:
-               book = xlrd.open_workbook(file_contents=f.read(), encoding_override=encoding_override, on_demand=True)
+    if hasattr(path, 'read'):
+        book = xlrd.open_workbook(file_contents=path.read(), encoding_override=encoding_override, on_demand=True)
+    else:
+        with open(path, 'rb') as f:
+            book = xlrd.open_workbook(file_contents=f.read(), encoding_override=encoding_override, on_demand=True)
 
+    try:
        multiple = agate.utils.issequence(sheet)
        if multiple:
            sheets = sheet
