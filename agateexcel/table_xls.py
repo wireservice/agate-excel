@@ -8,6 +8,7 @@ import datetime
 from collections import OrderedDict
 
 import agate
+import olefile
 import six
 import xlrd
 
@@ -40,13 +41,27 @@ def from_xls(cls, path, sheet=None, skip_lines=0, header=True, encoding_override
     if not isinstance(skip_lines, int):
         raise ValueError('skip_lines argument must be an int')
 
-    try:
-       if hasattr(path, 'read'):
-           book = xlrd.open_workbook(file_contents=path.read(), encoding_override=encoding_override, on_demand=True)
-       else:
-           with open(path, 'rb') as f:
-               book = xlrd.open_workbook(file_contents=f.read(), encoding_override=encoding_override, on_demand=True)
+    def open_workbook(f):
+        try:
+            book = xlrd.open_workbook(file_contents=f.read(), encoding_override=encoding_override, on_demand=True)
+        except xlrd.compdoc.CompDocError:
+            # This is not a pure XLS file; we'll try to read it though.
+            # Let's try the Compound File Binary Format:
+            ole = olefile.OleFileIO(f)
+            if ole.exists('Workbook'):
+                d = ole.openstream('Workbook')
+                book = xlrd.open_workbook(file_contents=d.read(), on_demand=True)
+            else:
+                raise IOError('No Workbook stream found in OLE file')
+        return book
 
+    if hasattr(path, 'read'):
+        book = open_workbook(path)
+    else:
+        with open(path, 'rb') as f:
+            book = open_workbook(f)
+
+    try:
        multiple = agate.utils.issequence(sheet)
        if multiple:
            sheets = sheet

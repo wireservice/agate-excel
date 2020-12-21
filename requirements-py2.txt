@@ -8,3 +8,4 @@ ordereddict>=1.1
 xlrd>=0.9.4
 openpyxl>=2.3.0
 agate>=1.2.2
+olefile>=0.46
