@@ -15,7 +15,7 @@ NULL_TIME = datetime.time(0, 0, 0)
 
 
 def from_xlsx(cls, path, sheet=None, skip_lines=0, header=True, read_only=True, 
-              reset_dimensions=False, **kwargs):
+              reset_dimensions=False, row_limit=None, **kwargs):
     """
     Parse an XLSX file.
 
@@ -31,6 +31,8 @@ def from_xlsx(cls, path, sheet=None, skip_lines=0, header=True, read_only=True,
     :param reset_dimensions:
         If :code:`True`, do not trust the dimensions in the file's properties, 
         and recalculate them based on the data in the file.
+    :param row_limit:
+        Limit how many rows of data will be read
     """
     if not isinstance(skip_lines, int):
         raise ValueError('skip_lines argument must be an int')
@@ -67,16 +69,23 @@ def from_xlsx(cls, path, sheet=None, skip_lines=0, header=True, read_only=True,
             sheet = book.active
 
         column_names = None
+        offset = 0
         rows = []
 
         if reset_dimensions:
             sheet.reset_dimensions()
 
-        for i, row in enumerate(sheet.iter_rows(min_row=skip_lines + 1)):
-            if i == 0 and header:
-                column_names = [None if c.value is None else six.text_type(c.value) for c in row]
-                continue
+        if header:
+            sheet_header = sheet.iter_rows(min_row=1 + skip_lines, max_row=1 + skip_lines)
+            column_names = [None if c.value is None else six.text_type(c.value) for row in sheet_header for c in row]
+            offset = 1
 
+        if row_limit is None:
+            sheet_rows = sheet.iter_rows(min_row=1 + skip_lines + offset)
+        else:
+            sheet_rows = sheet.iter_rows(min_row=1 + skip_lines + offset, max_row=1 + skip_lines + offset + row_limit)
+
+        for i, row in enumerate(sheet_rows):
             values = []
 
             for c in row:

@@ -24,7 +24,7 @@ EXCEL_TO_AGATE_TYPE = {
 }
 
 
-def from_xls(cls, path, sheet=None, skip_lines=0, header=True, encoding_override=None, **kwargs):
+def from_xls(cls, path, sheet=None, skip_lines=0, header=True, encoding_override=None, row_limit=None, **kwargs):
     """
     Parse an XLS file.
 
@@ -37,6 +37,8 @@ def from_xls(cls, path, sheet=None, skip_lines=0, header=True, encoding_override
         The number of rows to skip from the top of the sheet.
     :param header:
         If :code:`True`, the first row is assumed to contain column names.
+    :param row_limit:
+        Limit how many rows of data will be read
     """
     if not isinstance(skip_lines, int):
         raise ValueError('skip_lines argument must be an int')
@@ -89,9 +91,12 @@ def from_xls(cls, path, sheet=None, skip_lines=0, header=True, encoding_override
            column_types = []
 
            for i in range(sheet.ncols):
-               data = sheet.col_values(i)
-               values = data[skip_lines + offset:]
-               types = sheet.col_types(i)[skip_lines + offset:]
+               if row_limit is None:
+                   values = sheet.col_values(i, skip_lines + offset)
+                   types = sheet.col_types(i, skip_lines + offset)
+               else:
+                   values = sheet.col_values(i, skip_lines + offset, skip_lines + offset + row_limit)
+                   types = sheet.col_types(i, skip_lines + offset, skip_lines + offset + row_limit)
                excel_type = determine_excel_type(types)
                agate_type = determine_agate_type(excel_type)
 
@@ -105,7 +110,7 @@ def from_xls(cls, path, sheet=None, skip_lines=0, header=True, encoding_override
                        agate_type = agate.Date()
 
                if header:
-                   name = six.text_type(data[skip_lines]) or None
+                   name = six.text_type(sheet.cell_value(skip_lines, i)) or None
                    column_names.append(name)
 
                columns.append(values)
