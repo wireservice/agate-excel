@@ -2,12 +2,6 @@
 
 from setuptools import setup
 
-install_requires = [
-    'agate>=1.5.0',
-    'xlrd>=0.9.4',
-    'openpyxl>=2.3.0'
-]
-
 setup(
     name='agate-excel',
     version='0.2.4',
@@ -25,20 +19,31 @@ setup(
         'Natural Language :: English',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',
-        'Topic :: Multimedia :: Graphics',
         'Topic :: Scientific/Engineering :: Information Analysis',
-        'Topic :: Scientific/Engineering :: Visualization',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
     packages=[
         'agateexcel'
     ],
-    install_requires=install_requires
+    install_requires=[
+        'agate>=1.5.0',
+        'olefile',
+        'openpyxl>=2.3.0',
+        'xlrd>=0.9.4',
+    ],
+    extras_require={
+        'test': [
+            'nose>=1.1.2',
+        ],
+        'docs': [
+            'Sphinx>=1.2.2',
+            'sphinx_rtd_theme>=0.1.6',
+        ],
+    }
 )
