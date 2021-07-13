@@ -4,7 +4,8 @@
 import datetime
 
 import agate
-import agateexcel  # noqa
+
+import agateexcel  # noqa: F401
 
 
 class TestXLS(agate.AgateTestCase):
@@ -31,7 +32,8 @@ class TestXLS(agate.AgateTestCase):
         self.table = agate.Table(self.rows, self.column_names, self.column_types)
 
     def test_from_xls_with_column_names(self):
-        table = agate.Table.from_xls('examples/test.xls', header=False, skip_lines=1, column_names=self.user_provided_column_names )
+        table = agate.Table.from_xls('examples/test.xls', header=False, skip_lines=1,
+                                     column_names=self.user_provided_column_names)
 
         self.assertColumnNames(table, self.user_provided_column_names)
         self.assertColumnTypes(table, [agate.Number, agate.Text, agate.Boolean, agate.Date, agate.DateTime])

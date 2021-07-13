@@ -12,7 +12,6 @@ import olefile
 import six
 import xlrd
 
-
 EXCEL_TO_AGATE_TYPE = {
     xlrd.biffh.XL_CELL_EMPTY: agate.Boolean(),
     xlrd.biffh.XL_CELL_TEXT: agate.Text(),
@@ -64,74 +63,74 @@ def from_xls(cls, path, sheet=None, skip_lines=0, header=True, encoding_override
             book = open_workbook(f)
 
     try:
-       multiple = agate.utils.issequence(sheet)
-       if multiple:
-           sheets = sheet
-       else:
-           sheets = [sheet]
+        multiple = agate.utils.issequence(sheet)
+        if multiple:
+            sheets = sheet
+        else:
+            sheets = [sheet]
 
-       tables = OrderedDict()
+        tables = OrderedDict()
 
-       for i, sheet in enumerate(sheets):
-           if isinstance(sheet, six.string_types):
-               sheet = book.sheet_by_name(sheet)
-           elif isinstance(sheet, int):
-               sheet = book.sheet_by_index(sheet)
-           else:
-               sheet = book.sheet_by_index(0)
+        for i, sheet in enumerate(sheets):
+            if isinstance(sheet, six.string_types):
+                sheet = book.sheet_by_name(sheet)
+            elif isinstance(sheet, int):
+                sheet = book.sheet_by_index(sheet)
+            else:
+                sheet = book.sheet_by_index(0)
 
-           if header:
-               offset = 1
-               column_names = []
-           else:
-               offset = 0
-               column_names = None
+            if header:
+                offset = 1
+                column_names = []
+            else:
+                offset = 0
+                column_names = None
 
-           columns = []
-           column_types = []
+            columns = []
+            column_types = []
 
-           for i in range(sheet.ncols):
-               if row_limit is None:
-                   values = sheet.col_values(i, skip_lines + offset)
-                   types = sheet.col_types(i, skip_lines + offset)
-               else:
-                   values = sheet.col_values(i, skip_lines + offset, skip_lines + offset + row_limit)
-                   types = sheet.col_types(i, skip_lines + offset, skip_lines + offset + row_limit)
-               excel_type = determine_excel_type(types)
-               agate_type = determine_agate_type(excel_type)
+            for i in range(sheet.ncols):
+                if row_limit is None:
+                    values = sheet.col_values(i, skip_lines + offset)
+                    types = sheet.col_types(i, skip_lines + offset)
+                else:
+                    values = sheet.col_values(i, skip_lines + offset, skip_lines + offset + row_limit)
+                    types = sheet.col_types(i, skip_lines + offset, skip_lines + offset + row_limit)
+                excel_type = determine_excel_type(types)
+                agate_type = determine_agate_type(excel_type)
 
-               if excel_type == xlrd.biffh.XL_CELL_BOOLEAN:
-                   values = normalize_booleans(values)
-               elif excel_type == xlrd.biffh.XL_CELL_DATE:
-                   values, with_date, with_time = normalize_dates(values, book.datemode)
-                   if not with_date:
-                       agate_type = agate.TimeDelta()
-                   if not with_time:
-                       agate_type = agate.Date()
+                if excel_type == xlrd.biffh.XL_CELL_BOOLEAN:
+                    values = normalize_booleans(values)
+                elif excel_type == xlrd.biffh.XL_CELL_DATE:
+                    values, with_date, with_time = normalize_dates(values, book.datemode)
+                    if not with_date:
+                        agate_type = agate.TimeDelta()
+                    if not with_time:
+                        agate_type = agate.Date()
 
-               if header:
-                   name = six.text_type(sheet.cell_value(skip_lines, i)) or None
-                   column_names.append(name)
+                if header:
+                    name = six.text_type(sheet.cell_value(skip_lines, i)) or None
+                    column_names.append(name)
 
-               columns.append(values)
-               column_types.append(agate_type)
+                columns.append(values)
+                column_types.append(agate_type)
 
-           rows = []
+            rows = []
 
-           if columns:
-               for i in range(len(columns[0])):
-                   rows.append([c[i] for c in columns])
+            if columns:
+                for i in range(len(columns[0])):
+                    rows.append([c[i] for c in columns])
 
-           if 'column_names' in kwargs:
-               if not header:
-                   column_names = kwargs['column_names']
-               del kwargs['column_names']
+            if 'column_names' in kwargs:
+                if not header:
+                    column_names = kwargs['column_names']
+                del kwargs['column_names']
 
-           if 'column_types' in kwargs:
-               column_types = kwargs['column_types']
-               del kwargs['column_types']
+            if 'column_types' in kwargs:
+                column_types = kwargs['column_types']
+                del kwargs['column_types']
 
-           tables[sheet.name] = agate.Table(rows, column_names, column_types, **kwargs)
+            tables[sheet.name] = agate.Table(rows, column_names, column_types, **kwargs)
 
     finally:
         book.release_resources()

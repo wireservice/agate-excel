@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
 import agate
-import agateexcel  # noqa
+
+import agateexcel
 
 table = agate.Table.from_xls('examples/test.xls')
 

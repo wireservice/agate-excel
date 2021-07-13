@@ -14,7 +14,7 @@ import six
 NULL_TIME = datetime.time(0, 0, 0)
 
 
-def from_xlsx(cls, path, sheet=None, skip_lines=0, header=True, read_only=True, 
+def from_xlsx(cls, path, sheet=None, skip_lines=0, header=True, read_only=True,
               reset_dimensions=False, row_limit=None, **kwargs):
     """
     Parse an XLSX file.
@@ -29,7 +29,7 @@ def from_xlsx(cls, path, sheet=None, skip_lines=0, header=True, read_only=True,
     :param header:
         If :code:`True`, the first row is assumed to contain column names.
     :param reset_dimensions:
-        If :code:`True`, do not trust the dimensions in the file's properties, 
+        If :code:`True`, do not trust the dimensions in the file's properties,
         and recalculate them based on the data in the file.
     :param row_limit:
         Limit how many rows of data will be read
