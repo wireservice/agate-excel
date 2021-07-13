@@ -1,8 +1,10 @@
 0.2.4 - July 13, 2021
 ---------------------
 
+* Add ``row_limit`` keyword argument to ``from_xls`` and ``from_xlsx``. (#40)
 * Preserve column types from XLS files. (#36)
-* Close XLSX file before raising error for non-existent sheet.
+* Add support for Compound File Binary File (CFBF) XLS files. (#44)
+* Close XLSX file before raising error for non-existent sheet. (#34)
 * Use less memory and close XLS files. (#39)
 * Drop support for Python 3.4 (end-of-life was March 18, 2019).
 
