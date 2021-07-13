@@ -1,5 +1,5 @@
-0.2.4 - Unreleased
-------------------
+0.2.4 - July 13, 2021
+---------------------
 
 * Preserve column types from XLS files. (#36)
 * Close XLSX file before raising error for non-existent sheet.
