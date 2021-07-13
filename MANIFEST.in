@@ -1,6 +1,9 @@
+include *.py
+include *.rst
 include COPYING
-include AUTHORS.rst
-include CHANGELOG.rst
-include README.rst
+recursive-include docs *.py
+recursive-include docs *.rst
+recursive-include docs Makefile
+recursive-include examples *.xls
+recursive-include examples *.xlsx
 recursive-include tests *.py
-graft examples
