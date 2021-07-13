@@ -106,7 +106,7 @@ class TestXLSX(agate.AgateTestCase):
         self.assertColumnNames(table, ['s'])
         self.assertColumnTypes(table, [agate.Date])
         self.assertRows(table, [
-            [datetime.date(1899, 12, 31)],
+            [datetime.date(1900, 1, 1)],
         ])
 
     def test_empty(self):
