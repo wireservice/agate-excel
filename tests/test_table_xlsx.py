@@ -4,6 +4,7 @@
 import datetime
 
 import agate
+import six
 
 import agateexcel  # noqa: F401
 
@@ -105,10 +106,15 @@ class TestXLSX(agate.AgateTestCase):
     def test_ambiguous_date(self):
         table = agate.Table.from_xlsx('examples/test_ambiguous_date.xlsx')
 
+        if six.PY2:
+            expected = datetime.date(1899, 12, 31)
+        else:
+            expected = datetime.date(1900, 1, 1)
+
         self.assertColumnNames(table, ['s'])
         self.assertColumnTypes(table, [agate.Date])
         self.assertRows(table, [
-            [datetime.date(1900, 1, 1)],
+            [expected],
         ])
 
     def test_empty(self):
