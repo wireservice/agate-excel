@@ -106,6 +106,7 @@ class TestXLSX(agate.AgateTestCase):
     def test_ambiguous_date(self):
         table = agate.Table.from_xlsx('examples/test_ambiguous_date.xlsx')
 
+        # openpyxl >= 3 fixes a bug, but Python 2 is constrained to openpyxl < 3.
         if six.PY2:
             expected = datetime.date(1899, 12, 31)
         else:
