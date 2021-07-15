@@ -32,7 +32,7 @@ def from_xlsx(cls, path, sheet=None, skip_lines=0, header=True, read_only=True,
         If :code:`True`, do not trust the dimensions in the file's properties,
         and recalculate them based on the data in the file.
     :param row_limit:
-        Limit how many rows of data will be read
+        Limit how many rows of data will be read.
     """
     if not isinstance(skip_lines, int):
         raise ValueError('skip_lines argument must be an int')

@@ -37,7 +37,7 @@ def from_xls(cls, path, sheet=None, skip_lines=0, header=True, encoding_override
     :param header:
         If :code:`True`, the first row is assumed to contain column names.
     :param row_limit:
-        Limit how many rows of data will be read
+        Limit how many rows of data will be read.
     """
     if not isinstance(skip_lines, int):
         raise ValueError('skip_lines argument must be an int')
