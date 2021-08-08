@@ -36,12 +36,12 @@ setup(
         'agate>=1.5.0',
         'olefile',
         'openpyxl>=2.3.0',
+        'six',
         'xlrd>=0.9.4',
     ],
     extras_require={
         'test': [
             'nose>=1.1.2',
-            'six',
         ],
         'docs': [
             'Sphinx>=1.2.2',
