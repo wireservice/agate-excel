@@ -5,7 +5,7 @@ with open('README.rst') as f:
 
 setup(
     name='agate-excel',
-    version='0.2.4',
+    version='0.2.5',
     description='agate-excel adds read support for Excel files (xls and xlsx) to agate.',
     long_description=long_description,
     long_description_content_type='text/x-rst',
