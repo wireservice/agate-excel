@@ -41,7 +41,8 @@ setup(
     ],
     extras_require={
         'test': [
-            'nose>=1.1.2',
+            'pytest',
+            'pytest-cov',
         ],
         'docs': [
             'Sphinx>=1.2.2',
