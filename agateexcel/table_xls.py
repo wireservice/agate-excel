@@ -9,7 +9,6 @@ from collections import OrderedDict
 
 import agate
 import olefile
-import six
 import xlrd
 
 EXCEL_TO_AGATE_TYPE = {
@@ -72,7 +71,7 @@ def from_xls(cls, path, sheet=None, skip_lines=0, header=True, encoding_override
         tables = OrderedDict()
 
         for i, sheet in enumerate(sheets):
-            if isinstance(sheet, six.string_types):
+            if isinstance(sheet, str):
                 sheet = book.sheet_by_name(sheet)
             elif isinstance(sheet, int):
                 sheet = book.sheet_by_index(sheet)
@@ -109,7 +108,7 @@ def from_xls(cls, path, sheet=None, skip_lines=0, header=True, encoding_override
                         agate_type = agate.Date()
 
                 if header:
-                    name = six.text_type(sheet.cell_value(skip_lines, i)) or None
+                    name = str(sheet.cell_value(skip_lines, i)) or None
                     column_names.append(name)
 
                 columns.append(values)

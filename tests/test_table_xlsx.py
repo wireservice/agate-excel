@@ -4,7 +4,6 @@
 import datetime
 
 import agate
-import six
 
 import agateexcel  # noqa: F401
 
@@ -106,16 +105,10 @@ class TestXLSX(agate.AgateTestCase):
     def test_ambiguous_date(self):
         table = agate.Table.from_xlsx('examples/test_ambiguous_date.xlsx')
 
-        # openpyxl >= 3 fixes a bug, but Python 2 is constrained to openpyxl < 3.
-        if six.PY2:
-            expected = datetime.date(1899, 12, 31)
-        else:
-            expected = datetime.date(1900, 1, 1)
-
         self.assertColumnNames(table, ['s'])
         self.assertColumnTypes(table, [agate.Date])
         self.assertRows(table, [
-            [expected],
+            [datetime.date(1900, 1, 1)],
         ])
 
     def test_empty(self):

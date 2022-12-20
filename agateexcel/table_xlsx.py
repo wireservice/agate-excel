@@ -9,7 +9,6 @@ from collections import OrderedDict
 
 import agate
 import openpyxl
-import six
 
 NULL_TIME = datetime.time(0, 0, 0)
 
@@ -53,7 +52,7 @@ def from_xlsx(cls, path, sheet=None, skip_lines=0, header=True, read_only=True,
     tables = OrderedDict()
 
     for i, sheet in enumerate(sheets):
-        if isinstance(sheet, six.string_types):
+        if isinstance(sheet, str):
             try:
                 sheet = book[sheet]
             except KeyError:
@@ -77,7 +76,7 @@ def from_xlsx(cls, path, sheet=None, skip_lines=0, header=True, read_only=True,
 
         if header:
             sheet_header = sheet.iter_rows(min_row=1 + skip_lines, max_row=1 + skip_lines)
-            column_names = [None if c.value is None else six.text_type(c.value) for row in sheet_header for c in row]
+            column_names = [None if c.value is None else str(c.value) for row in sheet_header for c in row]
             offset = 1
 
         if row_limit is None:
