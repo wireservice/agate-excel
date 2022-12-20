@@ -136,8 +136,7 @@ def from_xls(cls, path, sheet=None, skip_lines=0, header=True, encoding_override
 
     if multiple:
         return agate.MappedSequence(tables.values(), tables.keys())
-    else:
-        return tables.popitem()[1]
+    return tables.popitem()[1]
 
 
 def determine_agate_type(excel_type):

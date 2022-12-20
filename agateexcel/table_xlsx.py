@@ -116,8 +116,7 @@ def from_xlsx(cls, path, sheet=None, skip_lines=0, header=True, read_only=True,
 
     if multiple:
         return agate.MappedSequence(tables.values(), tables.keys())
-    else:
-        return tables.popitem()[1]
+    return tables.popitem()[1]
 
 
 def normalize_datetime(dt):

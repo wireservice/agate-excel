@@ -44,8 +44,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'agate-excel'
-copyright = u'2017, Christopher Groskopf'
+project = 'agate-excel'
+copyright = '2017, Christopher Groskopf'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -189,8 +189,8 @@ htmlhelp_basename = 'agateexceldoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'agate-excel.tex', u'agate-excel Documentation',
-   u'Christopher Groskopf', 'manual'),
+  ('index', 'agate-excel.tex', 'agate-excel Documentation',
+   'Christopher Groskopf', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
