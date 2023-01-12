@@ -52,7 +52,7 @@ def from_xls(cls, path, sheet=None, skip_lines=0, header=True, encoding_override
                 d = ole.openstream('Workbook')
                 book = xlrd.open_workbook(file_contents=d.read(), on_demand=True)
             else:
-                raise IOError('No Workbook stream found in OLE file')
+                raise OSError('No Workbook stream found in OLE file')
         return book
 
     if hasattr(path, 'read'):
