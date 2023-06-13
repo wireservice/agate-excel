@@ -13,7 +13,7 @@ To install:
 
     pip install agate-excel
 
-For details on development or supported platforms see the `agate documentation <http://agate.readthedocs.org>`_.
+For details on development or supported platforms see the `agate documentation <https://agate.readthedocs.org>`_.
 
 Usage
 =====

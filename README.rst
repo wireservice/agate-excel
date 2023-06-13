@@ -22,7 +22,7 @@ agate-excel adds read support for Excel files (xls and xlsx) to `agate <https://
 
 Important links:
 
-* agate             http://agate.rtfd.org
-* Documentation:    http://agate-excel.rtfd.org
+* agate             https://agate.rtfd.org
+* Documentation:    https://agate-excel.rtfd.org
 * Repository:       https://github.com/wireservice/agate-excel
 * Issues:           https://github.com/wireservice/agate-excel/issues
