@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 """
 This module contains the XLS extension to :class:`Table <agate.table.Table>`.
 """
