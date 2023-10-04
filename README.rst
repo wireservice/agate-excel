@@ -2,6 +2,10 @@
     :target: https://github.com/wireservice/agate-excel/actions
     :alt: Build status
 
+.. image:: https://coveralls.io/repos/wireservice/agate-excel/badge.svg?branch=master
+    :target: https://coveralls.io/r/wireservice/agate-excel
+    :alt: Coverage status
+
 .. image:: https://img.shields.io/pypi/dm/agate-excel.svg
     :target: https://pypi.python.org/pypi/agate-excel
     :alt: PyPI downloads
