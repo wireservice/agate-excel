@@ -25,6 +25,9 @@ def from_xlsx(cls, path, sheet=None, skip_lines=0, header=True, read_only=True,
         The number of rows to skip from the top of the sheet.
     :param header:
         If :code:`True`, the first row is assumed to contain column names.
+    :param read_only:
+        If :code:`True`, the XLSX file is opened in read-only mode, to reduce
+        memory consumption.
     :param reset_dimensions:
         If :code:`True`, do not trust the dimensions in the file's properties,
         and recalculate them based on the data in the file.
@@ -69,8 +72,9 @@ def from_xlsx(cls, path, sheet=None, skip_lines=0, header=True, read_only=True,
         offset = 0
         rows = []
 
-        if reset_dimensions:
+        if read_only and reset_dimensions:
             sheet.reset_dimensions()
+            sheet.calculate_dimension(force=True)
 
         if header:
             sheet_header = sheet.iter_rows(min_row=1 + skip_lines, max_row=1 + skip_lines)

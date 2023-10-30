@@ -1,6 +1,8 @@
-Unreleased
-----------
+0.3.0 - October 30, 2023
+------------------------
 
+* If the ``reset_dimensions`` argument to :meth:`.Table.from_xlsx` is set, recalculate the worksheet's dimensions, instead of assuming that the table's width matches the first row's.
+* The ``reset_dimensions`` argument to :meth:`.Table.from_xlsx` is ignored if the ``read_only`` argument is false.
 * Add Python 3.8, 3.9, 3.10, 3.11, 3.12 support.
 * Drop support for 3.5 (2020-09-13), 3.6 (2021-12-23), 3.7 (2023-06-27).
 
