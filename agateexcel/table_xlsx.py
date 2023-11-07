@@ -12,7 +12,7 @@ NULL_TIME = datetime.time(0, 0, 0)
 
 
 def from_xlsx(cls, path, sheet=None, skip_lines=0, header=True, read_only=True,
-              reset_dimensions=False, row_limit=None, **kwargs):
+              reset_dimensions=None, row_limit=None, **kwargs):
     """
     Parse an XLSX file.
 
@@ -72,7 +72,7 @@ def from_xlsx(cls, path, sheet=None, skip_lines=0, header=True, read_only=True,
         offset = 0
         rows = []
 
-        if read_only and reset_dimensions:
+        if read_only and (reset_dimensions or reset_dimensions is None and sheet.calculate_dimension() == 'A1:A1'):
             sheet.reset_dimensions()
             sheet.calculate_dimension(force=True)
 

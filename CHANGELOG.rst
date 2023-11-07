@@ -1,3 +1,8 @@
+0.4.0 - November 7, 2023
+------------------------
+
+* The ``reset_dimensions`` argument to :meth:`.Table.from_xlsx` defaults to ``None`` instead of ``False``. If ``reset_dimensions`` is ``None``, and if the worksheet's dimensions are ``A1:A1``, recalculate the worksheet's dimensions. To disable this behavior, set ``reset_dimensions`` to ``False``.
+
 0.3.0 - October 30, 2023
 ------------------------
 
