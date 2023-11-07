@@ -73,8 +73,12 @@ def from_xlsx(cls, path, sheet=None, skip_lines=0, header=True, read_only=True,
         rows = []
 
         if read_only and (reset_dimensions or reset_dimensions is None and sheet.calculate_dimension() == 'A1:A1'):
-            sheet.reset_dimensions()
-            sheet.calculate_dimension(force=True)
+            try:
+                sheet.reset_dimensions()
+                sheet.calculate_dimension(force=True)
+            # https://foss.heptapod.net/openpyxl/openpyxl/-/issues/2111
+            except UnboundLocalError:
+                pass
 
         if header:
             sheet_header = sheet.iter_rows(min_row=1 + skip_lines, max_row=1 + skip_lines)
