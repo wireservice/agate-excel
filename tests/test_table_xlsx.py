@@ -137,3 +137,16 @@ class TestXLSX(agate.AgateTestCase):
         self.assertColumnNames(table, self.column_names)
         self.assertColumnTypes(table, [agate.Number, agate.Text, agate.Boolean, agate.Date, agate.DateTime])
         self.assertRows(table, [r.values() for r in self.table.rows])
+
+    def test_from_xlsx_unsized(self):
+        table = agate.Table.from_xlsx('examples/ne_1033_data.xlsx')
+
+        self.assertEqual(len(table.columns), 14)
+        self.assertEqual(len(table.rows), 1036)
+
+    def test_from_xlsx_size_1(self):
+        # https://github.com/wireservice/csvkit/issues/1129
+        table = agate.Table.from_xlsx('examples/covid_19-iss.xlsx')
+
+        self.assertEqual(len(table.columns), 18)
+        self.assertEqual(len(table.rows), 46)

@@ -1,3 +1,8 @@
+0.4.1 - November 20, 2023
+-------------------------
+
+* fix: :meth:`.Table.from_xlsx` no longer errors on unsized sheets.
+
 0.4.0 - November 7, 2023
 ------------------------
 

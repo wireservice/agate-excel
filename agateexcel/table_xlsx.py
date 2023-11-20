@@ -72,7 +72,10 @@ def from_xlsx(cls, path, sheet=None, skip_lines=0, header=True, read_only=True,
         offset = 0
         rows = []
 
-        if read_only and (reset_dimensions or reset_dimensions is None and sheet.calculate_dimension() == 'A1:A1'):
+        if (
+            read_only
+            and (reset_dimensions or (reset_dimensions is None and sheet.max_column == 1 and sheet.max_row == 1))
+        ):
             try:
                 sheet.reset_dimensions()
                 sheet.calculate_dimension(force=True)
