@@ -12,7 +12,7 @@ sys.path.insert(0, os.path.abspath('..'))
 
 project = 'agate-excel'
 copyright = '2017, Christopher Groskopf'
-version = '0.4.1'
+version = '0.4.2'
 release = version
 
 # -- General configuration ---------------------------------------------------
