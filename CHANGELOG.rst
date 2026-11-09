@@ -1,5 +1,5 @@
-Unreleased
-----------
+0.4.3 - November 8, 2026
+------------------------
 
 * fix: :meth:`.Table.from_xls` outputs date cells as dates (instead of as serial numbers) in columns with mixed cell types.
 
