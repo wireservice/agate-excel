@@ -119,6 +119,17 @@ class TestXLS(agate.AgateTestCase):
             [datetime.date(1900, 1, 1)],
         ])
 
+    def test_mixed_types(self):
+        table = agate.Table.from_xls('examples/test_mixed_types.xls')
+
+        self.assertColumnNames(table, ['a'])
+        self.assertColumnTypes(table, [agate.Text])
+        self.assertRows(table, [
+            ['text'],
+            ['2026-01-02'],
+            ['2026-01-02 03:04:05'],
+        ])
+
     def test_empty(self):
         table = agate.Table.from_xls('examples/test_empty.xls')
 

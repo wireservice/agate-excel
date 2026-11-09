@@ -104,6 +104,11 @@ def from_xls(cls, path, sheet=None, skip_lines=0, header=True, encoding_override
                         agate_type = agate.TimeDelta()
                     if not with_time:
                         agate_type = agate.Date()
+                elif xlrd.biffh.XL_CELL_DATE in types:
+                    values = [
+                        normalize_dates([v], book.datemode)[0][0] if t == xlrd.biffh.XL_CELL_DATE else v
+                        for v, t in zip(values, types)
+                    ]
 
                 if header:
                     name = str(sheet.cell_value(skip_lines, i)) or None
