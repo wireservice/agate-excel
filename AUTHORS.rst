@@ -8,3 +8,5 @@ The following individuals have contributed code to agate-excel:
 * `Tim Freund <https://github.com/timfreund>`_
 * `Loïc Corbasson <https://github.com/lcorbasson>`_
 * `Robert Schütz <https://github.com/dotlambda>`_
+
+* hassan

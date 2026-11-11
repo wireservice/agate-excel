@@ -37,12 +37,15 @@ dependencies = [
 
 [project.optional-dependencies]
 test = [
+    "build",
+    "setuptools>=61",
+    "wheel",
     "pytest",
     "pytest-cov",
 ]
 
 [tool.setuptools.packages.find]
-exclude = ["tests", "tests.*"]
+include = ["agateexcel", "agateexcel.*"]
 
 [tool.isort]
 line_length = 119
