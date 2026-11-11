@@ -1,3 +1,8 @@
+Unreleased
+----------
+
+* Restrict installed packages to ``agateexcel``, leaving documentation and examples in source distributions only.
+
 0.4.3 - November 8, 2026
 ------------------------
 
